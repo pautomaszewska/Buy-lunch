@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+    {% load app_filters %}
+
+{% block content %}
+    <h3>Lunch na dziś: {{ today |date:'d-m-Y' }}</h3>
+    <h4>Danie główne</h4>
+    <div>
+        {% for lunch in lunches %}
+        <ul>{{ lunch.type | lunch_type }}: {{ lunch.name }}</ul>
+        {% endfor %}
+    </div>
+     <div>
+     <h4>Przystawki</h4>
+        {% for appetizer in appetizers %}
+        <ul>{{ appetizer.type | appetizer_type }}: {{ appetizer.name }}</ul>
+        {% endfor %}
+    </div>
+    <div>
+        <a href="{% url 'make-order' %}">Złóż zamówienie</a>
+    </div>
+
+
+
+
+
+{% endblock %}

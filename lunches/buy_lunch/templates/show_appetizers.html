@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+    {% load app_filters %}
+
+
+{% block content %}
+    <h3>Przystawki</h3>
+    <div>{% for appetizer in appetizers %}
+    <li>{{ appetizer.type | appetizer_type}}: {{ appetizer.name }}</li>
+    {% endfor %}
+    </div>
+
+
+
+{% endblock %}

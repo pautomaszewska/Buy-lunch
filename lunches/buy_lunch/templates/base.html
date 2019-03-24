@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    {% load static %}
+    {% load bootstrap4 %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <meta charset="UTF-8">
+    <title>Get lunch!</title>
+
+
+
+</head>
+<body>
+
+<header class="nav">
+<div class="container">
+    <a href="{% url 'index' %}">Get lunch!</a>
+    <a href="{% url 'add-lunch' %}">Dodaj lunch</a>
+    <a href="{% url 'add-appetizer' %}">Dodaj przystawkę</a>
+    <a href="{% url 'add-beverage' %}">Dodaj napój</a>
+    <a href="{% url 'lunches' %}">Pokaż lunche</a>
+    <a href="{% url 'appetizers' %}">Pokaż przystawki</a>
+    <a href="{% url 'beverages' %}">Pokaż napoje</a>
+    <a href="{% url 'set-lunch-date' %}">Ułóż menu(lunch)</a>
+    <a href="{% url 'set-appetizer-date' %}">Ułóż menu(przystawka)</a>
+
+
+
+
+    </div>
+</header>
+
+{#    <h1>Get lunch!</h1>#}
+        {% block content %}
+
+
+        {% endblock %}
+</body>
+</html>

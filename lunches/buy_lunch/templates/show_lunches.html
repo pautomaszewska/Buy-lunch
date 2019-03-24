@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+    {% load app_filters %}
+
+
+{% block content %}
+    <h3>Dania lunchowe</h3>
+    <div>{% for lunch in lunches %}
+    <li>{{ lunch.type | lunch_type}}: {{ lunch.name }}</li>
+    {% endfor %}
+    </div>
+
+
+
+{% endblock %}

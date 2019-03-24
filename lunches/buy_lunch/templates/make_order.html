@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3>Złóż zamówienie</h3>
+    <form action="{%  url 'make-order' %}" method="post">
+    {% csrf_token %}
+        <div >Wybierz danie lunchowe</div>
+        <div class="checkbox-row">
+            <input type="radio" name="lunch" value="{{ lunch_meat.id }}">{{ lunch_meat.name }}
+            <input type="radio" name="lunch" value="{{ lunch_vegetarian.id }}">{{ lunch_vegetarian.name }}
+            <input type="radio" name="lunch" value="{{ lunch_vegan.id }}">{{ lunch_vegan.name }}
+        </div>
+        <div>Wybierz przystawkę</div>
+        <div class="checkbox-row">
+            <input type="radio" name="appetizer" value="{{ appetizer_soup.id }}">{{ appetizer_soup.name }}
+            <input type="radio" name="appetizer" value="{{ appetizer_salad.id }}">{{ appetizer_salad.name }}
+        </div>
+        <div>Wybierz napój</div>
+        <div class="radiolist">
+            {% for beverage in beverages %}
+                <input type="radio" name="beverage" value="{{ beverage.id }}">{{ beverage.name }}
+            {% endfor %}
+
+        </div>
+
+
+    <div><input type="submit" value="Zamawiam"></div>
+
+    </form>
+
+{% endblock %}
