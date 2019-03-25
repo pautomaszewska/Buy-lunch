@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.http import HttpResponse, HttpResponseRedirect
 from datetime import date
+from django.db.models import Sum
 
 
-from .models import Lunch, Appetizer, Beverages, Order
+from .models import Lunch, Appetizer, Beverages, Order, Points
 from .forms import AddLunchForm, AddAppetizerForm, AddBeverageForm, AddLunchDate, AddAppetizerDate
 
 
@@ -106,12 +107,18 @@ class MakeOrder(View):
         appetizer_salad = Appetizer.objects.get(appetizerdate__date=date.today(), type=2)
 
         beverages = Beverages.objects.all()
+
+        count_points = Points.objects.filter(user=request.user).aggregate(Sum('amount'))
+        all_points = count_points['amount__sum']
+
         return render(request, 'make_order.html', {'lunch_meat': lunch_meat,
                                                    'lunch_vegetarian': lunch_vegetarian,
                                                    'lunch_vegan': lunch_vegan,
                                                    'appetizer_soup': appetizer_soup,
                                                    'appetizer_salad': appetizer_salad,
-                                                   'beverages': beverages})
+                                                   'beverages': beverages,
+                                                   'all_points': all_points})
+
     def post(self, request):
         lunch_selected = request.POST.get('lunch')
         lunch = Lunch.objects.get(id=lunch_selected)
@@ -124,11 +131,20 @@ class MakeOrder(View):
 
         final_price = lunch.price + appetizer.price + beverage.price
 
+        points_collected = int(final_price/10)
+
+        all_points = Points.objects.filter(user=request.user).aggregate()
+
+        if final_price > 10:
+            user_points = Points.objects.create(user=self.request.user, amount=points_collected)
+
         order = Order.objects.create(lunch=lunch,
                                      appetizer=appetizer,
                                      beverage=beverage,
                                      final_price=final_price,
-                                     user=request.User,
+                                     points=user_points,
+                                     points_collected=points_collected,
+                                     user=self.request.user,
                                      )
         order.save()
         return HttpResponse('zamówienie złożone')

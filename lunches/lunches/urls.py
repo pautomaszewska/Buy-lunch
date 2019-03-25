@@ -15,11 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.contrib.auth import views as auth_views
+from django.conf.urls.static import static
+from .settings import MEDIA_ROOT, MEDIA_URL
+
+
 from buy_lunch.views import ShowMenu, AddLunch, AddAppetizer, AddBeverage, ShowLunches, ShowLAppetizers, ShowBeverages,\
     SetLunchDate, SetAppetizerDate, MakeOrder
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
+
     path('', ShowMenu.as_view(), name='index'),
     path('add-lunch/', AddLunch.as_view(), name='add-lunch'),
     path('add-appetizer/', AddAppetizer.as_view(), name='add-appetizer'),
@@ -31,4 +39,4 @@ urlpatterns = [
     path('set-appetizer-date/', SetAppetizerDate.as_view(), name='set-appetizer-date'),
     path('make-order/', MakeOrder.as_view(), name='make-order'),
 
-]
+] + static(MEDIA_URL, document_root=MEDIA_ROOT)

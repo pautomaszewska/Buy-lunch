@@ -4,11 +4,17 @@
     <h3>Złóż zamówienie</h3>
     <form action="{%  url 'make-order' %}" method="post">
     {% csrf_token %}
+    <div>Punkty do wykorzystania: {{ all_points }}</div>
         <div >Wybierz danie lunchowe</div>
-        <div class="checkbox-row">
-            <input type="radio" name="lunch" value="{{ lunch_meat.id }}">{{ lunch_meat.name }}
-            <input type="radio" name="lunch" value="{{ lunch_vegetarian.id }}">{{ lunch_vegetarian.name }}
-            <input type="radio" name="lunch" value="{{ lunch_vegan.id }}">{{ lunch_vegan.name }}
+        <div class="radiolist">
+            <div class="meat"><input type="radio" name="lunch" value="{{ lunch_meat.id }}"></div>
+            <div class="meat"><input type="radio" name="lunch" value="{{ lunch_vegan.id }}"></div>
+
+            <div class="meat"><div><input type="radio" name="lunch" value="{{ lunch_vegetarian.id }}"></div>
+                <div class="name">{{ lunch_meat.name }}</div>
+                <div class="name">{{ lunch_vegetarian.name }}</div>
+
+                <div class="name">{{ lunch_vegan.name }}</div>
         </div>
         <div>Wybierz przystawkę</div>
         <div class="checkbox-row">
@@ -27,5 +33,6 @@
     <div><input type="submit" value="Zamawiam"></div>
 
     </form>
+    <img src="../../media/meat_unchecked.png">
 
 {% endblock %}
