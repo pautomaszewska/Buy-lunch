@@ -150,5 +150,18 @@ class MakeOrder(View):
         return HttpResponse('zamówienie złożone')
 
 
+class UserOrders(View):
+    def get(self, request):
+        orders = Order.objects.filter(user=request.user).order_by('date')
+
+        return render(request, 'user_orders.html', {'orders': orders})
+
+
+class OrderDetails(View):
+    def get(self, request, order_id):
+        order = Order.objects.get(id=order_id)
+        return render(request, 'order_details.html', {'order': order})
+
+
 
 

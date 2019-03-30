@@ -26,7 +26,6 @@ class Appetizer(models.Model):
     name = models.CharField(max_length=300)
     type = models.IntegerField(choices=APPETIZER_TYPE)
     price = models.DecimalField(decimal_places=2, max_digits=4)
-    # date = models.ManyToManyField('AppetizerDate')
 
     def __str__(self):
         return self.name

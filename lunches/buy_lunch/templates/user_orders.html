@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+    {% load app_filters %}
+
+
+{% block content %}
+    <h5>Moje zamówienia</h5>
+    <table class="table table-striped">
+    <thead>
+    <tr><th scope="col">Data</th>
+        <th scope="col">Lunch</th>
+        <th scope="col">Typ lunchu</th>
+        <th scope="col">Cena lunchu</th>
+        <th scope="col">Oceń lunch</th>
+        <th scope="col">Przystawka</th>
+        <th scope="col">Typ przystawki</th>
+        <th scope="col">Cena przystawki</th>
+        <th scope="col">Oceń przystawkę</th>
+        <th scope="col">Napój</th>
+        <th scope="col">Cena napoju</th>
+        <th scope="col">Cena łącznie</th>
+        <th scope="col">Otrzymane punkty</th></tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+       <tr ><td>{{ order.date | date:"d-m-Y" }}</td>
+            <td>{{ order.lunch.name }}</td>
+            <td>{{ order.lunch.type | lunch_type }}</td>
+            <td>{{ order.lunch.price }}</td>
+            <td>recenzja</td>
+            <td>{{ order.appetizer.name }}</td>
+            <td>{{ order.appetizer.type | appetizer_type }}</td>
+            <td>{{ order.appetizer.price }}</td>
+            <td>recenzja</td>
+            <td>{{ order.beverage }}</td>
+            <td>{{ order.beverage.price }}</td>
+            <td>{{ order.final_price }}</td>
+            <td>{{ order.points_collected }}</td></tr>
+
+
+    {% endfor %}
+    </tbody>
+    </table>
+
+
+
+{% endblock %}

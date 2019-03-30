@@ -21,7 +21,7 @@ from .settings import MEDIA_ROOT, MEDIA_URL
 
 
 from buy_lunch.views import ShowMenu, AddLunch, AddAppetizer, AddBeverage, ShowLunches, ShowLAppetizers, ShowBeverages,\
-    SetLunchDate, SetAppetizerDate, MakeOrder
+    SetLunchDate, SetAppetizerDate, MakeOrder, UserOrders, OrderDetails
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -38,5 +38,7 @@ urlpatterns = [
     path('set-lunch-date/', SetLunchDate.as_view(), name='set-lunch-date'),
     path('set-appetizer-date/', SetAppetizerDate.as_view(), name='set-appetizer-date'),
     path('make-order/', MakeOrder.as_view(), name='make-order'),
+    path('user-orders/', UserOrders.as_view(), name='user-orders'),
+    path('order-details/<order_id>', OrderDetails.as_view(), name='order-details'),
 
-] + static(MEDIA_URL, document_root=MEDIA_ROOT)
+    ] + static(MEDIA_URL, document_root=MEDIA_ROOT)

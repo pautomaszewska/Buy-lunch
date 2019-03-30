@@ -4,6 +4,8 @@
 <head>
     {% load static %}
     {% load bootstrap4 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
     <meta charset="UTF-8">
     <title>Get lunch!</title>
@@ -13,26 +15,28 @@
 </head>
 <body>
 
-<header class="nav">
-<div class="container">
-    <a href="{% url 'index' %}">Get lunch!</a>
-    <a href="{% url 'add-lunch' %}">Dodaj lunch</a>
-    <a href="{% url 'add-appetizer' %}">Dodaj przystawkę</a>
-    <a href="{% url 'add-beverage' %}">Dodaj napój</a>
-    <a href="{% url 'lunches' %}">Pokaż lunche</a>
-    <a href="{% url 'appetizers' %}">Pokaż przystawki</a>
-    <a href="{% url 'beverages' %}">Pokaż napoje</a>
-    <a href="{% url 'set-lunch-date' %}">Ułóż menu(lunch)</a>
-    <a href="{% url 'set-appetizer-date' %}">Ułóż menu(przystawka)</a>
-    <a href="{% url 'make-order' %}">Zamów</a>
+<header class="navbar navbar-light">
+    <a class="navbar-brand" href="{% url 'index' %}">Get lunch!</a>
+    <div class="dropleft">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Menu
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+   <a class="dropdown-item" href="{% url 'add-lunch' %}">Dodaj lunch</a>
+    <a class="dropdown-item" href="{% url 'add-appetizer' %}">Dodaj przystawkę</a>
+    <a class="dropdown-item" href="{% url 'add-beverage' %}">Dodaj napój</a>
+    <a class="dropdown-item" href="{% url 'lunches' %}">Pokaż lunche</a>
+    <a class="dropdown-item" href="{% url 'appetizers' %}">Pokaż przystawki</a>
+    <a class="dropdown-item" href="{% url 'beverages' %}">Pokaż napoje</a>
+    <a class="dropdown-item" href="{% url 'set-lunch-date' %}">Ułóż menu(lunch)</a>
+    <a class="dropdown-item" href="{% url 'set-appetizer-date' %}">Ułóż menu(przystawka)</a>
+    <a class="dropdown-item" href="{% url 'make-order' %}">Zamów</a>
+    <a class="dropdown-item" href="{% url 'user-orders' %}">Moje zamówienia</a>
+  </div>
+</div>
 
-
-
-
-    </div>
 </header>
 
-{#    <h1>Get lunch!</h1>#}
         {% block content %}
 
 
