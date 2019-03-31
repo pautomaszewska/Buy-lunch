@@ -2,18 +2,19 @@
     {% load app_filters %}
 
 {% block content %}
-    <h3>Lunch na dziś: {{ today |date:'d-m-Y' }}</h3>
-    <h4>Danie główne</h4>
     <div>
-        {% for lunch in lunches %}
-        <ul>{{ lunch.type | lunch_type }}: {{ lunch.name }}</ul>
-        {% endfor %}
-    </div>
-     <div>
-     <h4>Przystawki</h4>
-        {% for appetizer in appetizers %}
-        <ul>{{ appetizer.type | appetizer_type }}: {{ appetizer.name }}</ul>
-        {% endfor %}
+    <h4>Lunch na dziś: {{ today |date:'d-m-Y' }}</h4>
+
+    <h5>Danie główne</h5>
+        <div>Mięsne: {{ menu.lunch_meat.lunch_name }}</div>
+        <div>Wegetariańskie: {{ menu.lunch_vegetarian.lunch_name }}</div>
+        <div>Wegańskie: {{ menu.lunch_vegan.lunch_name }}</div>
+
+
+     <h5>Przystawki</h5>
+         <div>Sałatka: {{ menu.salad.appetizer_name }}</div>
+         <div>Zupa: {{ menu.soup.appetizer_name }}</div>
+
     </div>
     <div>
         <a href="{% url 'make-order' %}">Złóż zamówienie</a>

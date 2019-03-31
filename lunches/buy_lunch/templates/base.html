@@ -6,17 +6,25 @@
     {% load bootstrap4 %}
     {% bootstrap_css %}
     {% bootstrap_javascript jquery='full' %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/locale/pl.js"></script>
+
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'>
+
     <meta charset="UTF-8">
     <title>Get lunch!</title>
-
-
-
 </head>
-<body>
+<body class="ml-2 mr-2 mt-2" >
 
-<header class="navbar navbar-light">
-    <a class="navbar-brand" href="{% url 'index' %}">Get lunch!</a>
+<header class="navbar navbar-light" id="main-header">
+    <div class="col">
+        <a class="navbar-brand app-name col-1" href="{% url 'index' %}">Get lunch!</a></div>
+    <div class="btn">
+    <a class="nav-link" href="{% url 'lunch-calendar' %}">Kalendarz</a></div>
     <div class="dropleft">
   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Menu
@@ -28,8 +36,9 @@
     <a class="dropdown-item" href="{% url 'lunches' %}">Pokaż lunche</a>
     <a class="dropdown-item" href="{% url 'appetizers' %}">Pokaż przystawki</a>
     <a class="dropdown-item" href="{% url 'beverages' %}">Pokaż napoje</a>
-    <a class="dropdown-item" href="{% url 'set-lunch-date' %}">Ułóż menu(lunch)</a>
-    <a class="dropdown-item" href="{% url 'set-appetizer-date' %}">Ułóż menu(przystawka)</a>
+{#    <a class="dropdown-item" href="{% url 'set-lunch-date' %}">Ułóż menu(lunch)</a>#}
+      <a class="dropdown-item" href="{% url 'set-menu' %}">Ułóż menu</a>
+{#    <a class="dropdown-item" href="{% url 'set-appetizer-date' %}">Ułóż menu(przystawka)</a>#}
     <a class="dropdown-item" href="{% url 'make-order' %}">Zamów</a>
     <a class="dropdown-item" href="{% url 'user-orders' %}">Moje zamówienia</a>
   </div>
@@ -42,4 +51,5 @@
 
         {% endblock %}
 </body>
+
 </html>

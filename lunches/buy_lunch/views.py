@@ -5,17 +5,16 @@ from datetime import date
 from django.db.models import Sum
 
 
-from .models import Lunch, Appetizer, Beverages, Order, Points
-from .forms import AddLunchForm, AddAppetizerForm, AddBeverageForm, AddLunchDate, AddAppetizerDate
+from .models import Lunch, Appetizer, Beverages, Order, Points, Menu
+from .forms import AddLunchForm, AddAppetizerForm, AddBeverageForm, MenuForm
 
 
 class ShowMenu(View):
     def get(self, request):
-        lunches = Lunch.objects.filter(lunchdate__date=date.today()).order_by('type')
-        appetizers = Appetizer.objects.filter(appetizerdate__date=date.today())
         today = date.today()
-        return render(request, 'index.html', {'lunches': lunches,
-                                              'appetizers': appetizers,
+        menu = Menu.objects.get(date=today)
+
+        return render(request, 'index.html', {'menu': menu,
                                               'today': today})
 
 
@@ -99,12 +98,13 @@ class SetAppetizerDate(View):
 
 class MakeOrder(View):
     def get(self, request):
-        lunch_meat = Lunch.objects.get(lunchdate__date=date.today(), type=1)
-        lunch_vegetarian = Lunch.objects.get(lunchdate__date=date.today(), type=2)
-        lunch_vegan = Lunch.objects.get(lunchdate__date=date.today(), type=3)
+        today = date.today()
+        lunch_meat = Lunch.objects.get(lunch_type=1, lunch_meat__date=today)
+        lunch_vegetarian = Lunch.objects.get(lunch_type=2, lunch_vegetarian__date=today)
+        lunch_vegan = Lunch.objects.get(lunch_type=3, lunch_vegan__date=today)
 
-        appetizer_soup = Appetizer.objects.get(appetizerdate__date=date.today(), type=1)
-        appetizer_salad = Appetizer.objects.get(appetizerdate__date=date.today(), type=2)
+        salad = Appetizer.objects.get(appetizer_type=1, salad__date=today)
+        soup = Appetizer.objects.get(appetizer_type=2, soup__date=today)
 
         beverages = Beverages.objects.all()
 
@@ -114,8 +114,8 @@ class MakeOrder(View):
         return render(request, 'make_order.html', {'lunch_meat': lunch_meat,
                                                    'lunch_vegetarian': lunch_vegetarian,
                                                    'lunch_vegan': lunch_vegan,
-                                                   'appetizer_soup': appetizer_soup,
-                                                   'appetizer_salad': appetizer_salad,
+                                                   'salad': salad,
+                                                   'soup': soup,
                                                    'beverages': beverages,
                                                    'all_points': all_points})
 
@@ -129,7 +129,7 @@ class MakeOrder(View):
         beverage_selected = request.POST.get('beverage')
         beverage = Beverages.objects.get(id=beverage_selected)
 
-        final_price = lunch.price + appetizer.price + beverage.price
+        final_price = lunch.lunch_price + appetizer.appetizer_price + beverage.beverage_price
 
         points_collected = int(final_price/10)
 
@@ -157,11 +157,19 @@ class UserOrders(View):
         return render(request, 'user_orders.html', {'orders': orders})
 
 
-class OrderDetails(View):
-    def get(self, request, order_id):
-        order = Order.objects.get(id=order_id)
-        return render(request, 'order_details.html', {'order': order})
+class LunchCalendar(View):
+    def get(self, request):
+        menu = Menu.objects.all()
+        return render(request, 'calendar.html', {'menu': menu})
 
 
+class SetMenu(View):
+    def get(self, request):
+        form = MenuForm()
+        return render(request, 'set_menu.html', {'form': form})
 
-
+    def post(self, request):
+        form = MenuForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index')

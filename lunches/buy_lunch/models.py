@@ -13,30 +13,30 @@ APPETIZER_TYPE = ((1, 'sałatka'),
 
 
 class Lunch(models.Model):
-    name = models.CharField(max_length=300)
-    type = models.IntegerField(choices=LUNCH_TYPE)
-    price = models.DecimalField(decimal_places=2, max_digits=4)
+    lunch_name = models.CharField(max_length=300)
+    lunch_type = models.IntegerField(choices=LUNCH_TYPE)
+    lunch_price = models.DecimalField(decimal_places=2, max_digits=4)
     # date = models.ManyToManyField('LunchDate')
 
     def __str__(self):
-        return self.name
+        return self.lunch_name
 
 
 class Appetizer(models.Model):
-    name = models.CharField(max_length=300)
-    type = models.IntegerField(choices=APPETIZER_TYPE)
-    price = models.DecimalField(decimal_places=2, max_digits=4)
+    appetizer_name = models.CharField(max_length=300)
+    appetizer_type = models.IntegerField(choices=APPETIZER_TYPE)
+    appetizer_price = models.DecimalField(decimal_places=2, max_digits=4)
 
     def __str__(self):
-        return self.name
+        return self.appetizer_name
 
 
 class Beverages(models.Model):
-    name = models.CharField(max_length=100)
-    price = models.DecimalField(decimal_places=2, max_digits=4)
+    beverage_name = models.CharField(max_length=100)
+    beverage_price = models.DecimalField(decimal_places=2, max_digits=4)
 
     def __str__(self):
-        return self.name
+        return self.beverage_name
 
 
 class Order(models.Model):
@@ -59,11 +59,20 @@ class Points(models.Model):
     amount = models.IntegerField(default=0)
 
 
-class LunchDate(models.Model):
-    date = models.DateTimeField(default=datetime.today)
-    lunch = models.ManyToManyField(Lunch)
+# class LunchDate(models.Model):
+#     date = models.DateTimeField(default=datetime.today)
+#     lunch = models.ManyToManyField(Lunch)
 
 
-class AppetizerDate(models.Model):
+# class AppetizerDate(models.Model):
+#     date = models.DateTimeField(default=datetime.today)
+#     appetizer = models.ManyToManyField(Appetizer)
+
+
+class Menu(models.Model):
     date = models.DateTimeField(default=datetime.today)
-    appetizer = models.ManyToManyField(Appetizer)
+    lunch_meat = models.ForeignKey(Lunch, related_name='lunch_meat', on_delete=models.CASCADE)
+    lunch_vegetarian = models.ForeignKey(Lunch, related_name='lunch_vegetarian', on_delete=models.CASCADE)
+    lunch_vegan = models.ForeignKey(Lunch, related_name='lunch_vegan', on_delete=models.CASCADE)
+    soup = models.ForeignKey(Appetizer, related_name='soup', on_delete=models.CASCADE)
+    salad = models.ForeignKey(Appetizer, related_name='salad', on_delete=models.CASCADE)

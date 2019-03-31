@@ -4,27 +4,36 @@
     <h3>Złóż zamówienie</h3>
     <form action="{%  url 'make-order' %}" method="post">
     {% csrf_token %}
+    {% if all_points %}
     <div>Punkty do wykorzystania: {{ all_points }}</div>
-        <div >Wybierz danie lunchowe</div>
+    {% endif %}
+        <h4 >Wybierz danie lunchowe</h4>
         <div class="radiolist">
-            <div class="meat"><input type="radio" name="lunch" value="{{ lunch_meat.id }}"></div>
-            <div class="meat"><input type="radio" name="lunch" value="{{ lunch_vegan.id }}"></div>
+            <div class="meat"><input type="radio" name="lunch" value="{{ lunch_meat.id }}">
+                {{ lunch_meat.lunch_name }}</div>
 
-            <div class="meat"><div><input type="radio" name="lunch" value="{{ lunch_vegetarian.id }}"></div>
-                <div class="name">{{ lunch_meat.name }}</div>
-                <div class="name">{{ lunch_vegetarian.name }}</div>
+            <div class="meat"><input type="radio" name="lunch" value="{{ lunch_vegan.id }}">
+                {{ lunch_vegetarian.lunch_name }}</div>
 
-                <div class="name">{{ lunch_vegan.name }}</div>
-        </div>
-        <div>Wybierz przystawkę</div>
-        <div class="checkbox-row">
-            <input type="radio" name="appetizer" value="{{ appetizer_soup.id }}">{{ appetizer_soup.name }}
-            <input type="radio" name="appetizer" value="{{ appetizer_salad.id }}">{{ appetizer_salad.name }}
-        </div>
-        <div>Wybierz napój</div>
+            <div class="meat"><input type="radio" name="lunch" value="{{ lunch_vegetarian.id }}">
+                {{ lunch_vegan.lunch_name }}</div>
+        </div><br>
+
+
+        <h4>Wybierz przystawkę</h4>
+        <div class="radiolist">
+            <div><input type="radio" name="appetizer" value="{{ soup.id }}">
+                {{ soup.appetizer_name }}</div>
+            <div><input type="radio" name="appetizer" value="{{ salad.id }}">
+                {{ salad.appetizer_name }}</div>
+        </div><br>
+
+
+        <h4>Wybierz napój</h4>
         <div class="radiolist">
             {% for beverage in beverages %}
-                <input type="radio" name="beverage" value="{{ beverage.id }}">{{ beverage.name }}
+                <div><input type="radio" name="beverage" value="{{ beverage.id }}">
+                {{ beverage.beverage_name }}</div>
             {% endfor %}
 
         </div>

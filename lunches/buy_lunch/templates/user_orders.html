@@ -23,16 +23,16 @@
     <tbody>
         {% for order in orders %}
        <tr ><td>{{ order.date | date:"d-m-Y" }}</td>
-            <td>{{ order.lunch.name }}</td>
-            <td>{{ order.lunch.type | lunch_type }}</td>
-            <td>{{ order.lunch.price }}</td>
+            <td>{{ order.lunch.lunch_name }}</td>
+            <td>{{ order.lunch.lunch_type | lunch_type }}</td>
+            <td>{{ order.lunch.lunch_price }}</td>
             <td>recenzja</td>
-            <td>{{ order.appetizer.name }}</td>
-            <td>{{ order.appetizer.type | appetizer_type }}</td>
-            <td>{{ order.appetizer.price }}</td>
+            <td>{{ order.appetizer.appetizer_name }}</td>
+            <td>{{ order.appetizer.appetizer_type | appetizer_type }}</td>
+            <td>{{ order.appetizer.appetizer_price }}</td>
             <td>recenzja</td>
-            <td>{{ order.beverage }}</td>
-            <td>{{ order.beverage.price }}</td>
+            <td>{{ order.beverage.beverage_name }}</td>
+            <td>{{ order.beverage.beverage_price }}</td>
             <td>{{ order.final_price }}</td>
             <td>{{ order.points_collected }}</td></tr>
 

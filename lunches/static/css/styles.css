@@ -1,23 +1,35 @@
-h3 {
-    color: #5E5694;
-}
 
-.meat {
-    background: transparent url(../../media/meat_unchecked.png);
-    width:64px;
-    height:64px;
-    float: left;
-    display: block;
-    margin: 20px;
-}
-.meat input[type='radio'] {
-    display: none;
 
-}
+/*.meat {*/
+/*    background: transparent url(../../media/meat_unchecked.png);*/
+/*    width:64px;*/
+/*    height:64px;*/
+/*    float: left;*/
+/*    display: block;*/
+/*    margin: 20px;*/
+/*}*/
+/*.meat input[type='radio'] {*/
+/*    display: none;*/
+
+/*}*/
 
 
 .name {
     float: left;
     display: block;
 
+}
+
+#calendar {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.app-name {
+     font: 42px 'Cookie', Helvetica, sans-serif;
+}
+
+#main-header {
+    background-color: #bbccdd;
 }
