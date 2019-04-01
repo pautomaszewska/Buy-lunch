@@ -26,7 +26,11 @@
             <td>{{ order.lunch.lunch_name }}</td>
             <td>{{ order.lunch.lunch_type | lunch_type }}</td>
             <td>{{ order.lunch.lunch_price }}</td>
-            <td>recenzja</td>
+           {% if not order.lunch.lunchreview_set %}
+            <td><a href="{%  url 'lunch-review' order.lunch.id %}">Oceń lunch</a></td>
+               {% else %}
+               <td>Oceniono!</td>
+           {% endif %}
             <td>{{ order.appetizer.appetizer_name }}</td>
             <td>{{ order.appetizer.appetizer_type | appetizer_type }}</td>
             <td>{{ order.appetizer.appetizer_price }}</td>

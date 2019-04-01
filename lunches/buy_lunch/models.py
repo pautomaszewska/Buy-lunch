@@ -11,6 +11,11 @@ LUNCH_TYPE = ((1, 'mięsny'),
 APPETIZER_TYPE = ((1, 'sałatka'),
                   (2, 'zupa'))
 
+STARS = ((1, '*'),
+         (2, '**'),
+         (3, '***'),
+         (4, '****'),
+         (5, '*****'))
 
 class Lunch(models.Model):
     lunch_name = models.CharField(max_length=300)
@@ -76,3 +81,11 @@ class Menu(models.Model):
     lunch_vegan = models.ForeignKey(Lunch, related_name='lunch_vegan', on_delete=models.CASCADE)
     soup = models.ForeignKey(Appetizer, related_name='soup', on_delete=models.CASCADE)
     salad = models.ForeignKey(Appetizer, related_name='salad', on_delete=models.CASCADE)
+
+
+class LunchReview(models.Model):
+    lunch = models.ForeignKey(Lunch, on_delete=models.CASCADE)
+    review = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # stars = models.IntegerField(choices=STARS)
+

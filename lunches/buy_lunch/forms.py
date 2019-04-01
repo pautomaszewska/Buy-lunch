@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Lunch, Appetizer, Beverages, Order, Menu
+from .models import Lunch, Appetizer, Beverages, Order, Menu, LunchReview
 from datetime import date
 
 
@@ -62,6 +62,9 @@ class MenuForm(forms.ModelForm):
 #         fields = '__all__'
 
 
-
+class ReviewLunchForm(forms.ModelForm):
+    class Meta:
+        model = LunchReview
+        fields = ['review']
 
 

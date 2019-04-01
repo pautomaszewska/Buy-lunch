@@ -5,8 +5,8 @@ from datetime import date
 from django.db.models import Sum
 
 
-from .models import Lunch, Appetizer, Beverages, Order, Points, Menu
-from .forms import AddLunchForm, AddAppetizerForm, AddBeverageForm, MenuForm
+from .models import Lunch, Appetizer, Beverages, Order, Points, Menu, LunchReview
+from .forms import AddLunchForm, AddAppetizerForm, AddBeverageForm, MenuForm, ReviewLunchForm
 
 
 class ShowMenu(View):
@@ -147,12 +147,12 @@ class MakeOrder(View):
                                      user=self.request.user,
                                      )
         order.save()
-        return HttpResponse('zamówienie złożone')
+        return redirect('user-orders')
 
 
 class UserOrders(View):
     def get(self, request):
-        orders = Order.objects.filter(user=request.user).order_by('date')
+        orders = Order.objects.filter(user=request.user).order_by('-date')
 
         return render(request, 'user_orders.html', {'orders': orders})
 
@@ -173,3 +173,23 @@ class SetMenu(View):
         if form.is_valid():
             form.save()
             return redirect('index')
+
+
+class ReviewLunch(View):
+    def get(self, request, lunch_id):
+        lunch = Lunch.objects.get(id=lunch_id)
+        form = ReviewLunchForm()
+        return render(request, 'lunch_review.html', {'form': form, 'lunch': lunch})
+
+    def post(self, request, lunch_id):
+        lunch = Lunch.objects.get(id=lunch_id)
+        form = ReviewLunchForm(request.POST)
+        if form.is_valid():
+            review = LunchReview.objects.create(user=request.user,
+                                                lunch=lunch,
+                                                review=form.cleaned_data.get('review'))
+            review.save()
+            return redirect('user-orders')
+
+
+
