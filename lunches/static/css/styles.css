@@ -31,5 +31,24 @@
 }
 
 #main-header {
-    background-color: #bbccdd;
+    /*background-color: #bbccdd;*/
+    border: 2px dotted;
+    border-radius: 50px;
+}
+
+.menu {
+    /*margin: auto;*/
+    /*margin-bottom: 20px;*/
+    display: block;
+    text-align: center;
+}
+
+.fc-title {
+    padding: 0 1px;
+    white-space: normal;
+}
+
+table {
+    /*table-layout: fixed;*/
+    font-max-size: 12px;
 }

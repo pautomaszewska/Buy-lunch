@@ -89,3 +89,11 @@ class LunchReview(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     # stars = models.IntegerField(choices=STARS)
 
+
+class MenuReview(models.Model):
+    review = models.TextField()
+    menu = models.ForeignKey(Order, on_delete=models.CASCADE)
+    lunch_stars = models.IntegerField(choices=STARS)
+    appetizer_stars = models.IntegerField(choices=STARS)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+

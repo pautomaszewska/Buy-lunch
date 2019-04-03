@@ -5,15 +5,17 @@ from datetime import date
 from django.db.models import Sum
 
 
-from .models import Lunch, Appetizer, Beverages, Order, Points, Menu, LunchReview
-from .forms import AddLunchForm, AddAppetizerForm, AddBeverageForm, MenuForm, ReviewLunchForm
+from .models import Lunch, Appetizer, Beverages, Order, Points, Menu, LunchReview, MenuReview
+from .forms import AddLunchForm, AddAppetizerForm, AddBeverageForm, MenuForm, ReviewMenuForm
 
 
 class ShowMenu(View):
     def get(self, request):
         today = date.today()
-        menu = Menu.objects.get(date=today)
-
+        try:
+            menu = Menu.objects.get(date=today)
+        except Menu.DoesNotExist:
+            menu = None
         return render(request, 'index.html', {'menu': menu,
                                               'today': today})
 
@@ -175,19 +177,35 @@ class SetMenu(View):
             return redirect('index')
 
 
-class ReviewLunch(View):
-    def get(self, request, lunch_id):
-        lunch = Lunch.objects.get(id=lunch_id)
-        form = ReviewLunchForm()
-        return render(request, 'lunch_review.html', {'form': form, 'lunch': lunch})
+class EditMenu(View):
+    def get(self, request, menu_id):
+        menu = Menu.objects.get(id=menu_id)
+        form = MenuForm(instance=menu)
+        return render(request, 'edit_menu.html', {'form': form, 'menu': menu})
 
-    def post(self, request, lunch_id):
-        lunch = Lunch.objects.get(id=lunch_id)
-        form = ReviewLunchForm(request.POST)
+    def post(self, request, menu_id):
+        menu = Menu.objects.get(id=menu_id)
+        form = MenuForm(request.POST, instance=menu)
         if form.is_valid():
-            review = LunchReview.objects.create(user=request.user,
-                                                lunch=lunch,
-                                                review=form.cleaned_data.get('review'))
+            form.save()
+            return redirect('index')
+
+
+class ReviewOrder(View):
+    def get(self, request, order_id):
+        order = Order.objects.get(id=order_id)
+        form = ReviewMenuForm()
+        return render(request, 'lunch_review.html', {'form': form, 'order': order})
+
+    def post(self, request, order_id):
+        order = Order.objects.get(id=order_id)
+        form = ReviewMenuForm(request.POST)
+        if form.is_valid():
+            review = MenuReview.objects.create(user=request.user,
+                                               menu=order,
+                                               review=form.cleaned_data.get('review'),
+                                               lunch_stars=form.cleaned_data.get('lunch_stars'),
+                                               appetizer_stars=form.cleaned_data.get('appetizer_stars'))
             review.save()
             return redirect('user-orders')
 
