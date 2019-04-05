@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+    {% load app_filters %}
+
+
+{% block content %}
+    <h5 class="text-center">Ranking</h5>
+    <table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">Lunch</th>
+        <th scope="col">Średnia</th>
+
+
+    </tr>
+    </thead>
+    <tbody>
+        {% for lunch in lunches %}
+        <tr>
+            <td>{{ lunch.lunch_name }}</td>
+            {% for review in lunch.lunchreview_set.all %}
+                {{ review.lunch_stars }}
+            {% endfor %}
+            <td>{{ lunch.menu.appetizer.appetizer_name }}</td>
+            <td>{{ lunch.menu.appetizer.appetizer_name }}</td>
+            <td>{{ lunch.menu.beverage.beverage_name }}</td>
+            <td>{{ order.final_price }}</td>
+            <td>{{ lunch.review }}</td>
+
+       </tr>
+
+
+    {% endfor %}
+    </tbody>
+    </table>
+
+
+
+{% endblock %}

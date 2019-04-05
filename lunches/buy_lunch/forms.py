@@ -68,4 +68,9 @@ class ReviewMenuForm(forms.ModelForm):
         fields = ['review', 'lunch_stars', 'appetizer_stars']
 
 
+class UserRegisterForm(UserCreationForm):
+    email = forms.EmailField()
 
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']

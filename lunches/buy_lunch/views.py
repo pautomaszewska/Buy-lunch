@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.admin.views.decorators import staff_member_required
+
 from datetime import date
 from django.db.models import Sum
 
 
 from .models import Lunch, Appetizer, Beverages, Order, Points, Menu, LunchReview, MenuReview
-from .forms import AddLunchForm, AddAppetizerForm, AddBeverageForm, MenuForm, ReviewMenuForm
+from .forms import AddLunchForm, AddAppetizerForm, AddBeverageForm, MenuForm, ReviewMenuForm,UserRegisterForm
 
 
 class ShowMenu(View):
@@ -72,30 +74,6 @@ class ShowBeverages(View):
     def get(self, request):
         beverages = Beverages.objects.all()
         return render(request, 'show_beverages.html', {'beverages': beverages})
-
-
-class SetLunchDate(View):
-    def get(self, request):
-        form = AddLunchDate()
-        return render(request, 'set_lunch_date.html', {'form': form})
-
-    def post(self, request):
-        form = AddLunchDate(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('index')
-
-
-class SetAppetizerDate(View):
-    def get(self, request):
-        form = AddAppetizerDate()
-        return render(request, 'set_appetizer_date.html', {'form': form})
-
-    def post(self, request):
-        form = AddAppetizerDate(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('index')
 
 
 class MakeOrder(View):
@@ -210,4 +188,32 @@ class ReviewOrder(View):
             return redirect('user-orders')
 
 
+class RegisterView(View):
+    def get(self, request):
+        form = UserRegisterForm()
+        return render(request, 'register.html', {'form': form})
 
+    def post(self, request):
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            password = form.cleaned_data['password1']
+            user.set_password(password)
+            user.save()
+            return redirect('login')
+
+
+class AllOrders(View):
+    def get(self, request):
+        orders = Order.objects.all()
+        return render(request, 'all_orders.html', {'orders': orders})
+
+
+class DishRanking(View):
+    def get(self, request):
+        # reviews = MenuReview.objects.all()
+        lunches = Lunch.objects.all().distinct()
+        # appetizers = Appetizer.objects.all()
+        return render(request, 'ranking.html', {'lunches': lunches})
+
+# 'reviews': reviews

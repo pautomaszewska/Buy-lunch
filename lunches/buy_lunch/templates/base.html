@@ -16,31 +16,41 @@
     <link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'>
 
     <meta charset="UTF-8">
-    <title>Get lunch!</title>
+    <title>LunchTime</title>
 </head>
 <body class="ml-2 mr-2 mt-2" >
 
 <header class="navbar navbar-light mb-4" id="main-header">
     <div class="col">
-        <a class="navbar-brand app-name col-1" href="{% url 'index' %}">Get lunch!</a></div>
-    <div class="btn">
+        <a class="navbar-brand app-name col-1" href="{% url 'index' %}">LunchTime</a></div>
+    {% if user.is_authenticated %}
+           <span class="navbar-text">Witaj, {{ user.username }}!</span>
+        <div class="btn">
+            <a class="nav-link" href="{% url 'logout' %}">Wyloguj się</a></div>
+        {% if user.is_staff %}
+
     <a class="nav-link" href="{% url 'lunch-calendar' %}">Kalendarz</a></div>
+            {% endif %}
     <div class="dropleft">
   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Menu
   </button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-   <a class="dropdown-item" href="{% url 'add-lunch' %}">Dodaj lunch</a>
-    <a class="dropdown-item" href="{% url 'add-appetizer' %}">Dodaj przystawkę</a>
-    <a class="dropdown-item" href="{% url 'add-beverage' %}">Dodaj napój</a>
-    <a class="dropdown-item" href="{% url 'lunches' %}">Pokaż lunche</a>
-    <a class="dropdown-item" href="{% url 'appetizers' %}">Pokaż przystawki</a>
-    <a class="dropdown-item" href="{% url 'beverages' %}">Pokaż napoje</a>
-{#    <a class="dropdown-item" href="{% url 'set-lunch-date' %}">Ułóż menu(lunch)</a>#}
-      <a class="dropdown-item" href="{% url 'set-menu' %}">Ułóż menu</a>
-{#    <a class="dropdown-item" href="{% url 'set-appetizer-date' %}">Ułóż menu(przystawka)</a>#}
-    <a class="dropdown-item" href="{% url 'make-order' %}">Zamów</a>
-    <a class="dropdown-item" href="{% url 'user-orders' %}">Moje zamówienia</a>
+        <a class="dropdown-item" href="{% url 'add-lunch' %}">Dodaj lunch</a>
+        <a class="dropdown-item" href="{% url 'add-appetizer' %}">Dodaj przystawkę</a>
+        <a class="dropdown-item" href="{% url 'add-beverage' %}">Dodaj napój</a>
+        <a class="dropdown-item" href="{% url 'lunches' %}">Pokaż lunche</a>
+        <a class="dropdown-item" href="{% url 'appetizers' %}">Pokaż przystawki</a>
+        <a class="dropdown-item" href="{% url 'beverages' %}">Pokaż napoje</a>
+        <a class="dropdown-item" href="{% url 'set-menu' %}">Ułóż menu</a>
+        <a class="dropdown-item" href="{% url 'make-order' %}">Zamów</a>
+        <a class="dropdown-item" href="{% url 'user-orders' %}">Moje zamówienia</a>
+
+       {% else %}
+            <a class="nav-link" href="{% url 'login' %}">Zaloguj się</a></div>
+            <a class="nav-link" href="{% url 'register' %}">Zarejestruj się</a></div>
+
+      {% endif %}
   </div>
 </div>
 

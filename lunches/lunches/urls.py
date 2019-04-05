@@ -21,12 +21,14 @@ from .settings import MEDIA_ROOT, MEDIA_URL
 
 
 from buy_lunch.views import ShowMenu, AddLunch, AddAppetizer, AddBeverage, ShowLunches, ShowLAppetizers, ShowBeverages,\
-    SetLunchDate, SetAppetizerDate, MakeOrder, UserOrders, LunchCalendar, SetMenu, EditMenu, ReviewOrder
+    MakeOrder, UserOrders, LunchCalendar, SetMenu, EditMenu, ReviewOrder, RegisterView, \
+    AllOrders, DishRanking
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
+    path('register/', RegisterView.as_view(), name='register'),
 
     path('', ShowMenu.as_view(), name='index'),
     path('add-lunch/', AddLunch.as_view(), name='add-lunch'),
@@ -35,15 +37,14 @@ urlpatterns = [
     path('lunches/', ShowLunches.as_view(), name='lunches'),
     path('appetizers/', ShowLAppetizers.as_view(), name='appetizers'),
     path('beverages/', ShowBeverages.as_view(), name='beverages'),
-    path('set-lunch-date/', SetLunchDate.as_view(), name='set-lunch-date'),
-    path('set-appetizer-date/', SetAppetizerDate.as_view(), name='set-appetizer-date'),
     path('make-order/', MakeOrder.as_view(), name='make-order'),
     path('user-orders/', UserOrders.as_view(), name='user-orders'),
     path('lunch-calendar/', LunchCalendar.as_view(), name='lunch-calendar'),
     path('set-menu/', SetMenu.as_view(), name='set-menu'),
     path('order-review/<int:order_id>', ReviewOrder.as_view(), name='order-review'),
     path('edit-menu/<int:menu_id>', EditMenu.as_view(), name='edit-menu'),
-
+    path('all-orders/', AllOrders.as_view(), name='all-orders'),
+    path('ranking/', DishRanking.as_view(), name='ranking'),
 
 
     ] + static(MEDIA_URL, document_root=MEDIA_ROOT)

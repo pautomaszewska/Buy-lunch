@@ -32,8 +32,9 @@
 
 #main-header {
     /*background-color: #bbccdd;*/
-    border: 2px dotted;
+    border: 2px transparent;
     border-radius: 50px;
+    background-color: lavender;
 }
 
 .menu {
