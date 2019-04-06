@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 
 from datetime import date
@@ -80,7 +80,7 @@ class ShowBeverages(PermissionView):
         return render(request, 'show_beverages.html', {'beverages': beverages})
 
 
-class MakeOrder(View):
+class MakeOrder(LoginRequiredMixin, View):
     def get(self, request):
         today = date.today()
         lunch_meat = Lunch.objects.get(lunch_type=1, lunch_meat__date=today)
@@ -96,14 +96,15 @@ class MakeOrder(View):
 
         count_points = Points.objects.filter(user=request.user).aggregate(Sum('amount'))
         all_points = count_points['amount__sum']
+        discount = 0
         points = 0
         if all_points >= 25:
             points = all_points
-            discount = 0.25
+            discount = '25%'
             if points >= 50:
-                discount = 0.5
+                discount = '50%'
             elif points >= 100:
-                discount = 0.0
+                discount = '100%'
 
         return render(request, 'make_order.html', {'lunch_meat': lunch_meat,
                                                    'lunch_vegetarian': lunch_vegetarian,
@@ -126,12 +127,26 @@ class MakeOrder(View):
 
         final_price = lunch.lunch_price + appetizer.appetizer_price + beverage.beverage_price
 
-        points_collected = int(final_price/10)
+        count_points = Points.objects.filter(user=request.user).aggregate(Sum('amount'))
+        all_points = count_points['amount__sum']
 
-        all_points = Points.objects.filter(user=request.user).aggregate()
+        discount = 0
+
+        #FIX DISCOUNT
+        if request.POST.get('discount'):
+            discount = float(request.POST.get('discount'))
+            final_price = float(final_price) * float(discount)
+            if discount == '100%':
+                final_price = 0.01
+            points_removed = Points.objects.create(user=request.user,
+                                                   amount=-30)
+
+        points_collected = int(final_price/10)
 
         if final_price > 10:
             user_points = Points.objects.create(user=self.request.user, amount=points_collected)
+        else:
+            user_points = None
 
         order = Order.objects.create(lunch=lunch,
                                      appetizer=appetizer,
@@ -140,12 +155,13 @@ class MakeOrder(View):
                                      points=user_points,
                                      points_collected=points_collected,
                                      user=self.request.user,
+                                     discount=discount
                                      )
         order.save()
         return redirect('user-orders')
 
 
-class UserOrders(View):
+class UserOrders(LoginRequiredMixin, View):
     def get(self, request):
         orders = Order.objects.filter(user=request.user).order_by('-date')
 
@@ -195,7 +211,7 @@ class EditMenu(PermissionView):
             return redirect('index')
 
 
-class ReviewOrder(View):
+class ReviewOrder(LoginRequiredMixin, View):
     def get(self, request, order_id):
         order = Order.objects.get(id=order_id)
         form = ReviewMenuForm()

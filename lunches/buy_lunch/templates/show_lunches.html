@@ -3,9 +3,9 @@
 
 
 {% block content %}
-    <h3>Dania lunchowe</h3>
+    <h5>Dania lunchowe</h5>
     <div>{% for lunch in lunches %}
-    <li>{{ lunch.type | lunch_type}}: {{ lunch.name }}</li>
+    <li>{{ lunch.lunch_type | lunch_type}}: {{ lunch.lunch_name }}</li>
     {% endfor %}
     </div>
 

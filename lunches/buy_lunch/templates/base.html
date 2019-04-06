@@ -15,93 +15,74 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
     <link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'>
 
-{#    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/solid.css" integrity="sha384-QokYePQSOwpBDuhlHOsX0ymF6R/vLk/UQVz3WHa6wygxI5oGTmDTv8wahFOSspdm" crossorigin="anonymous">#}
-{#<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/regular.css" integrity="sha384-FKw7x8fCxuvzBwOJmhTJJsKzBl8dnN9e2R4+pXRfYoHivikuHkzWyhKWDSMcGNK8" crossorigin="anonymous">#}
-{#<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/fontawesome.css" integrity="sha384-vd1e11sR28tEK9YANUtpIOdjGW14pS87bUBuOIoBILVWLFnS+MCX9T6MMf0VdPGq" crossorigin="anonymous">#}
-
     <meta charset="UTF-8">
     <title>LunchTime</title>
 </head>
 <body class="ml-2 mr-2 mt-2" >
 
-<header class="navbar navbar-light mb-4 mx-1 row" id="main-header">
-    <div class="col-1.5">
-        <a class="navbar-brand app-name" href="{% url 'index' %}">LunchTime</a>
-    </div>
+<header class="navbar navbar-expand-lg navbar-light bg-light mb-4" id="main-header">
 
-        {% if user.is_authenticated %}
-            <span class="navbar-text">Witaj, {{ user.username }}!</span>
-            <div class="btn">
-            <a class="nav-link" href="{% url 'logout' %}">Wyloguj się</a></div>
+  <a class="navbar-brand app-name" href="{% url 'index' %}">LunchTime</a>
 
 
-       {% else %}
-            <a class="nav-link" href="{% url 'login' %}">Zaloguj się</a></div>
-            <a class="nav-link" href="{% url 'register' %}">Zarejestruj się</a></div>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
 
-      {% endif %}
+    <ul class="navbar-nav">
+     {% if user.is_authenticated %}
+        <span class="navbar-text mx-2">Witaj, {{ user.username }}!</span>
+        <span class="navbar-text mx-2">Punkty: {{ points }}</span>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'logout' %}">Wyloguj</a>
+      </li>
 
+    {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'register' %}">Zarejestruj się</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'login' %}">Zaloguj się</a>
+      </li>
+    {% endif %}
 
-    <div>
-        {% if user.is_staff %}
-            <div class="btn">
-            <a class="nav" href="{% url 'lunch-calendar' %}">Kalendarz</a>
-            </div>
+{% if user.is_staff %}
 
-            <div class="btn">
-            <a class="nav" href="{% url 'set-menu' %}">Ułóż menu</a>
-            </div>
-
-            <div class="btn">
-            <a class="nav" href="{% url 'all-orders' %}">Historia zamówień</a>
-            </div>
-
-            <div class="btn">
-            <a class="nav" href="{% url 'ranking' %}">Ranking</a>
-            </div>
-
-
-        {% endif %}
-
-    <div class="btn-group mx-1">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Dodawanie posiłków
-      </button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="{% url 'add-lunch' %}">Dodaj lunch</a>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'lunch-calendar' %}">Kalendarz</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'set-menu' %}">Ułóż menu</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'all-orders' %}">Historia zamówień</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'ranking' %}">Ranking</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dodaj danie
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="{% url 'add-lunch' %}">Dodaj lunch</a>
             <a class="dropdown-item" href="{% url 'add-appetizer' %}">Dodaj przystawkę</a>
             <a class="dropdown-item" href="{% url 'add-beverage' %}">Dodaj napój</a>
-
         </div>
-    </div>
-
-        <div class="btn-group mx-1">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Wszystkie posiłki
-      </button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="{% url 'lunches' %}">Pokaż lunche</a>
+      </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Wszystkie dania
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="{% url 'lunches' %}">Pokaż lunche</a>
             <a class="dropdown-item" href="{% url 'appetizers' %}">Pokaż przystawki</a>
             <a class="dropdown-item" href="{% url 'beverages' %}">Pokaż napoje</a>
         </div>
-    </div>
-
-{#     <div class="btn-group mx-1">#}
-{#      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
-{#        Menu#}
-{#      </button>#}
-{#      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">#}
-{#            <a class="dropdown-item" href="{% url 'set-menu' %}">Ułóż menu</a>#}
-{#            <a class="dropdown-item" href="{% url 'make-order' %}">Zamów</a>#}
-{#            <a class="dropdown-item" href="{% url 'user-orders' %}">Moje zamówienia</a>#}
-{#        </div>#}
-{#    </div>#}
-
-
-
-</div>
-</div>
-
+      </li>
+    {% else %}
+        {% endif %}
+    </ul>
+  </div>
+</nav>
 
 </header>
 
@@ -112,3 +93,4 @@
 </body>
 
 </html>
+

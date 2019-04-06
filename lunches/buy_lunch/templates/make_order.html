@@ -41,6 +41,7 @@
     {% if points %}
         <div>Zebrane punkty: {{ points }}</div>
         <div>Dostępna zniżka: {{ discount }}</div>
+        <div><input type="checkbox" name="discount" value="{{ discount }}">Wykorzystaj zniżkę</div>
     {% endif %}
 
     <div><input type="submit" value="Zamawiam"></div>
