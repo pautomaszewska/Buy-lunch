@@ -1,47 +1,70 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h3>Złóż zamówienie</h3>
+    <div class="menu">
+    <h4>Złóż zamówienie</h4>
     <form action="{%  url 'make-order' %}" method="post">
     {% csrf_token %}
-    {% if all_points %}
-    <div>Punkty do wykorzystania: {{ all_points }}</div>
-    {% endif %}
-        <h4 >Wybierz danie lunchowe</h4>
-        <div class="radiolist">
-            <div class="meat"><input type="radio" name="lunch" value="{{ lunch_meat.id }}">
+
+        <h5>Wybierz danie lunchowe</h5>
+        <div class="radiolist lunches">
+            <div class="meat"><input type="radio" name="lunch" id='lunch' data-price="{{ lunch_meat.lunch_price }}" value="{{ lunch_meat.id }}">
                 {{ lunch_meat.lunch_name }}</div>
 
-            <div class="meat"><input type="radio" name="lunch" value="{{ lunch_vegan.id }}">
+            <div class="meat"><input type="radio" name="lunch" id='lunch' data-price="{{ lunch_vegetarian.lunch_price }}" value="{{ lunch_vegan.id }}">
                 {{ lunch_vegetarian.lunch_name }}</div>
 
-            <div class="meat"><input type="radio" name="lunch" value="{{ lunch_vegetarian.id }}">
+            <div class="meat"><input type="radio" name="lunch" id='lunch' data-price="{{ lunch_vegan.lunch_price }}" value="{{ lunch_vegetarian.id }}">
                 {{ lunch_vegan.lunch_name }}</div>
         </div><br>
 
 
-        <h4>Wybierz przystawkę</h4>
+        <h5>Wybierz przystawkę</h5>
         <div class="radiolist">
-            <div><input type="radio" name="appetizer" value="{{ soup.id }}">
+            <div><input type="radio" name="appetizer" value="{{ soup.id }}" data-price="{{ soup.appetizer_price }}">
                 {{ soup.appetizer_name }}</div>
-            <div><input type="radio" name="appetizer" value="{{ salad.id }}">
+            <div><input type="radio" name="appetizer" value="{{ salad.id }}" data-price="{{ salad.appetizer_price }}">
                 {{ salad.appetizer_name }}</div>
         </div><br>
 
 
-        <h4>Wybierz napój</h4>
+        <h5>Wybierz napój</h5>
         <div class="radiolist">
             {% for beverage in beverages %}
-                <div><input type="radio" name="beverage" value="{{ beverage.id }}">
+                <div><input type="radio" name="beverage" value="{{ beverage.id }}" data-price="{{ beverage.beverage_price }}">
                 {{ beverage.beverage_name }}</div>
             {% endfor %}
-
         </div>
 
+    <div>Cena: <span id="sum"></span> </div>
+
+    {% if points %}
+        <div>Zebrane punkty: {{ points }}</div>
+        <div>Dostępna zniżka: {{ discount }}</div>
+    {% endif %}
 
     <div><input type="submit" value="Zamawiam"></div>
 
     </form>
-    <img src="../../media/meat_unchecked.png">
+    </div>
+{#    <img src="../../media/meat_unchecked.png">#}
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('[type=radio]').on('click', recalc);
+        function recalc() {
+            var checked = $('[type=radio]:checked');
+            var sum = 0;
+
+            checked.each(function (idx, item) {
+                sum -= -item.dataset.price
+            });
+            $('#sum').text(sum)
+        }
+    })
+
+    </script>
+
 
 {% endblock %}
+

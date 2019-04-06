@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Lunch, Appetizer, Beverages, Order, Points, Menu, MenuReview
+
+admin.site.register(Lunch)

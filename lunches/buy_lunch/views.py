@@ -1,14 +1,18 @@
 from django.shortcuts import render, redirect
 from django.views import View
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.admin.views.decorators import staff_member_required
 
 from datetime import date
-from django.db.models import Sum
+from django.db.models import Sum, Avg
 
 
-from .models import Lunch, Appetizer, Beverages, Order, Points, Menu, LunchReview, MenuReview
+from .models import Lunch, Appetizer, Beverages, Order, Points, Menu, MenuReview
 from .forms import AddLunchForm, AddAppetizerForm, AddBeverageForm, MenuForm, ReviewMenuForm,UserRegisterForm
+
+
+class PermissionView(PermissionRequiredMixin, View):
+    permission_required = 'auth.add_user'
 
 
 class ShowMenu(View):
@@ -22,7 +26,7 @@ class ShowMenu(View):
                                               'today': today})
 
 
-class AddLunch(View):
+class AddLunch(PermissionView):
     def get(self, request):
         form = AddLunchForm()
         return render(request, 'add_lunch.html', {'form': form})
@@ -34,7 +38,7 @@ class AddLunch(View):
             return redirect('index')
 
 
-class AddAppetizer(View):
+class AddAppetizer(PermissionView):
     def get(self, request):
         form = AddAppetizerForm()
         return render(request, 'add_appetizer.html', {'form': form})
@@ -46,7 +50,7 @@ class AddAppetizer(View):
             return redirect('index')
 
 
-class AddBeverage(View):
+class AddBeverage(PermissionView):
     def get(self, request):
         form = AddBeverageForm()
         return render(request, 'add_beverage.html', {'form': form})
@@ -58,19 +62,19 @@ class AddBeverage(View):
             return redirect('index')
 
 
-class ShowLunches(View):
+class ShowLunches(PermissionView):
     def get(self, request):
         lunches = Lunch.objects.all()
         return render(request, 'show_lunches.html', {'lunches': lunches})
 
 
-class ShowLAppetizers(View):
+class ShowLAppetizers(PermissionView):
     def get(self, request):
         appetizers = Appetizer.objects.all()
         return render(request, 'show_appetizers.html', {'appetizers': appetizers})
 
 
-class ShowBeverages(View):
+class ShowBeverages(PermissionView):
     def get(self, request):
         beverages = Beverages.objects.all()
         return render(request, 'show_beverages.html', {'beverages': beverages})
@@ -88,8 +92,18 @@ class MakeOrder(View):
 
         beverages = Beverages.objects.all()
 
+
+
         count_points = Points.objects.filter(user=request.user).aggregate(Sum('amount'))
         all_points = count_points['amount__sum']
+        points = 0
+        if all_points >= 25:
+            points = all_points
+            discount = 0.25
+            if points >= 50:
+                discount = 0.5
+            elif points >= 100:
+                discount = 0.0
 
         return render(request, 'make_order.html', {'lunch_meat': lunch_meat,
                                                    'lunch_vegetarian': lunch_vegetarian,
@@ -97,7 +111,8 @@ class MakeOrder(View):
                                                    'salad': salad,
                                                    'soup': soup,
                                                    'beverages': beverages,
-                                                   'all_points': all_points})
+                                                   'points': points,
+                                                   'discount': discount})
 
     def post(self, request):
         lunch_selected = request.POST.get('lunch')
@@ -137,13 +152,13 @@ class UserOrders(View):
         return render(request, 'user_orders.html', {'orders': orders})
 
 
-class LunchCalendar(View):
+class LunchCalendar(PermissionView):
     def get(self, request):
         menu = Menu.objects.all()
         return render(request, 'calendar.html', {'menu': menu})
 
 
-class SetMenu(View):
+class SetMenu(PermissionView):
     def get(self, request):
         form = MenuForm()
         return render(request, 'set_menu.html', {'form': form})
@@ -155,9 +170,20 @@ class SetMenu(View):
             return redirect('index')
 
 
-class EditMenu(View):
+class MenuDetails(PermissionView):
     def get(self, request, menu_id):
         menu = Menu.objects.get(id=menu_id)
+        return render(request, 'menu_details.html', {'menu': menu})
+
+
+class EditMenu(PermissionView):
+
+    def get(self, request, menu_id):
+        today = date.today()
+        try:
+            menu = Menu.objects.get(id=menu_id, date__gte=today)
+        except Menu.DoesNotExist:
+            menu = None
         form = MenuForm(instance=menu)
         return render(request, 'edit_menu.html', {'form': form, 'menu': menu})
 
@@ -203,17 +229,37 @@ class RegisterView(View):
             return redirect('login')
 
 
-class AllOrders(View):
+class AllOrders(PermissionView):
     def get(self, request):
         orders = Order.objects.all()
         return render(request, 'all_orders.html', {'orders': orders})
 
 
-class DishRanking(View):
+class DishRanking(PermissionView):
     def get(self, request):
-        # reviews = MenuReview.objects.all()
-        lunches = Lunch.objects.all().distinct()
-        # appetizers = Appetizer.objects.all()
-        return render(request, 'ranking.html', {'lunches': lunches})
+        lunches = Lunch.objects.all()
+        appetizers = Appetizer.objects.all()
 
-# 'reviews': reviews
+        for lunch in lunches:
+            avg = MenuReview.objects.filter(menu__lunch_id=lunch.id).aggregate(Avg('lunch_stars'))
+            stars = avg['lunch_stars__avg']
+            if stars is None:
+                stars = 0
+            lunch.stars = stars
+
+        for appetizer in appetizers:
+
+            avg = MenuReview.objects.filter(menu__appetizer_id=appetizer.id).aggregate(Avg('appetizer_stars'))
+
+            stars = avg['appetizer_stars__avg']
+            if stars is None:
+                stars = 0
+            appetizer.stars = stars
+
+        lunches = list(lunches)
+        lunches.sort(key=lambda x: x.stars, reverse=True)
+
+        return render(request, 'ranking.html', locals())
+
+
+

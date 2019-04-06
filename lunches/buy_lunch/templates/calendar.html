@@ -26,7 +26,7 @@
                 title: "{{ dish.lunch_meat.lunch_name }}\n{{ dish.lunch_vegetarian.lunch_name }}\n{{ dish.lunch_vegan.lunch_name }}\n{{ dish.salad.appetizer_name }}\n{{ dish.soup.appetizer_name }}",
                  start: "{{ dish.date |date:"Y-m-d" }}",
                  end: "{{ dish.date|date:"Y-m-d" }}",
-                 url: "{% url 'edit-menu' dish.id %}"
+                 url: "{% url 'menu-details' dish.id %}"
 
             },
 
@@ -43,43 +43,3 @@
 <div id='calendar'></div>
 
 {% endblock %}
-
-
-{#{% for lunch in menu %}#}
-{#                {#}
-{#                    title: "{{ lunch.lunch_meat.lunch_name }}",#}
-{#                    start: "{{ lunch.date|date:"Y-m-d" }}",#}
-{#                    end: "{{ lunch.date|date:"Y-m-d" }}",#}
-{#                    url: "{% url 'edit-menu' menu.id %}"#}
-{#                },#}
-{#            {% endfor %}#}
-{#            {% for lunch in menu %}#}
-{#                {#}
-{#                    title: "{{ lunch.lunch_vegetarian.lunch_name }}",#}
-{#                    start: "{{ lunch.date|date:"Y-m-d" }}",#}
-{#                    end: "{{ lunch.date|date:"Y-m-d" }}"#}
-{#                },#}
-{#            {% endfor %}#}
-{#            {% for lunch in menu %}#}
-{#                {#}
-{#                    title: "{{ lunch.lunch_vegan.lunch_name }}",#}
-{#                    start: "{{ lunch.date|date:"Y-m-d" }}",#}
-{#                    end: "{{ lunch.date|date:"Y-m-d" }}"#}
-{#                },#}
-{#            {% endfor %}#}
-{#            {% for appetizer in menu %}#}
-{#                {#}
-{#                    title: "{{ appetizer.soup.appetizer_name }}",#}
-{#                    start: "{{ appetizer.date|date:"Y-m-d" }}",#}
-{#                    end: "{{ appetizer.date|date:"Y-m-d" }}"#}
-{#                },#}
-{#            {% endfor %}#}
-{#            {% for appetizer in menu %}#}
-{#                {#}
-{#                    title: "{{ appetizer.salad.appetizer_name }}",#}
-{#                    start: "{{ appetizer.date|date:"Y-m-d" }}",#}
-{#                    end: "{{ appetizer.date|date:"Y-m-d" }}",#}
-{##}
-{#                },#}
-{##}
-{#            {% endfor %}#}

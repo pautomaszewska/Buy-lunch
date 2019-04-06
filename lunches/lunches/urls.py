@@ -22,7 +22,7 @@ from .settings import MEDIA_ROOT, MEDIA_URL
 
 from buy_lunch.views import ShowMenu, AddLunch, AddAppetizer, AddBeverage, ShowLunches, ShowLAppetizers, ShowBeverages,\
     MakeOrder, UserOrders, LunchCalendar, SetMenu, EditMenu, ReviewOrder, RegisterView, \
-    AllOrders, DishRanking
+    AllOrders, DishRanking, MenuDetails
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -43,6 +43,7 @@ urlpatterns = [
     path('set-menu/', SetMenu.as_view(), name='set-menu'),
     path('order-review/<int:order_id>', ReviewOrder.as_view(), name='order-review'),
     path('edit-menu/<int:menu_id>', EditMenu.as_view(), name='edit-menu'),
+    path('menu-details/<int:menu_id>', MenuDetails.as_view(), name='menu-details'),
     path('all-orders/', AllOrders.as_view(), name='all-orders'),
     path('ranking/', DishRanking.as_view(), name='ranking'),
 

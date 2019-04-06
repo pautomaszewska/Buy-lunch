@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+    {% load app_filters %}
+
+
+{% block content %}
+    <div class="menu">
+    <h3>Szczegóły menu</h3>
+     <h5>Danie główne</h5>
+        <div>Mięsne: {{ menu.lunch_meat.lunch_name }}</div>
+        <div>Wegetariańskie: {{ menu.lunch_vegetarian.lunch_name }}</div>
+        <div>Wegańskie: {{ menu.lunch_vegan.lunch_name }}</div>
+
+
+     <h5>Przystawki</h5>
+         <div>Sałatka: {{ menu.salad.appetizer_name }}</div>
+         <div>Zupa: {{ menu.soup.appetizer_name }}</div>
+     <button>
+    <a href="{% url 'edit-menu' menu.id %}">Edytuj</a>
+    </button>
+    </div>
+
+
+{% endblock %}
