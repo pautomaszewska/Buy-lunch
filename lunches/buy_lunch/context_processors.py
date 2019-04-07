@@ -1,10 +1,9 @@
 from django.db.models import Sum
-from django.contrib.auth.models import AnonymousUser
+from .models import Points
 
 
 def points(request):
-    from .models import Points
-    if not AnonymousUser:
+    if request.user.is_authenticated:
         count_points = Points.objects.filter(user=request.user).aggregate(Sum('amount'))
         all_points = count_points['amount__sum']
     else:

@@ -92,19 +92,23 @@ class MakeOrder(LoginRequiredMixin, View):
 
         beverages = Beverages.objects.all()
 
-
-
         count_points = Points.objects.filter(user=request.user).aggregate(Sum('amount'))
-        all_points = count_points['amount__sum']
-        discount = 0
+        my_points = count_points['amount__sum']
+
+        discount = None
+        discounted = 0
         points = 0
-        if all_points >= 25:
-            points = all_points
+        if my_points >= 25:
+            points = my_points
             discount = '25%'
+            discounted = 0.75
             if points >= 50:
                 discount = '50%'
-            elif points >= 100:
-                discount = '100%'
+                discounted = 0.5
+                if points >= 100:
+                    discount = '100%'
+                    discounted = 0
+
 
         return render(request, 'make_order.html', {'lunch_meat': lunch_meat,
                                                    'lunch_vegetarian': lunch_vegetarian,
@@ -112,8 +116,9 @@ class MakeOrder(LoginRequiredMixin, View):
                                                    'salad': salad,
                                                    'soup': soup,
                                                    'beverages': beverages,
-                                                   'points': points,
-                                                   'discount': discount})
+                                                   'my_points': points,
+                                                   'discount': discount,
+                                                   'discounted': discounted})
 
     def post(self, request):
         lunch_selected = request.POST.get('lunch')
@@ -127,19 +132,31 @@ class MakeOrder(LoginRequiredMixin, View):
 
         final_price = lunch.lunch_price + appetizer.appetizer_price + beverage.beverage_price
 
-        count_points = Points.objects.filter(user=request.user).aggregate(Sum('amount'))
-        all_points = count_points['amount__sum']
+        discounted = 0
 
-        discount = 0
-
-        #FIX DISCOUNT
         if request.POST.get('discount'):
-            discount = float(request.POST.get('discount'))
-            final_price = float(final_price) * float(discount)
-            if discount == '100%':
-                final_price = 0.01
-            points_removed = Points.objects.create(user=request.user,
-                                                   amount=-30)
+            discount = request.POST.get('discount')
+
+            if discount == '25%':
+                discounted = 0.25
+                final_price = float(final_price) * discounted
+                points_removed = Points.objects.create(user=request.user,
+                                                       amount=-25)
+                points_removed.save()
+
+            elif discount == '50%':
+                discounted = 0.5
+                final_price = float(final_price) * discounted
+                points_removed = Points.objects.create(user=request.user,
+                                                       amount=-50)
+                points_removed.save()
+
+            elif discount == '100%':
+                discounted = 1
+                final_price = 0
+                points_removed = Points.objects.create(user=request.user,
+                                                       amount=-100)
+                points_removed.save()
 
         points_collected = int(final_price/10)
 
@@ -155,7 +172,7 @@ class MakeOrder(LoginRequiredMixin, View):
                                      points=user_points,
                                      points_collected=points_collected,
                                      user=self.request.user,
-                                     discount=discount
+                                     discount=discounted,
                                      )
         order.save()
         return redirect('user-orders')
