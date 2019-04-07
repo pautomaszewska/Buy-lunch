@@ -59,6 +59,6 @@ table {
 }
 
 .logout {
-    display: inline-block;
-    float: right;
+    width: 20px;
+    height: 20px;
 }

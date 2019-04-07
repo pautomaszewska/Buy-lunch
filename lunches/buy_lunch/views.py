@@ -278,7 +278,7 @@ class DishRanking(PermissionView):
             stars = avg['lunch_stars__avg']
             if stars is None:
                 stars = 0
-            lunch.stars = stars
+            lunch.stars = round(stars, 2)
 
         for appetizer in appetizers:
 
@@ -287,7 +287,7 @@ class DishRanking(PermissionView):
             stars = avg['appetizer_stars__avg']
             if stars is None:
                 stars = 0
-            appetizer.stars = stars
+            appetizer.stars = round(stars, 2)
 
         lunches = list(lunches)
         lunches.sort(key=lambda x: x.stars, reverse=True)

@@ -1,14 +1,32 @@
 {% extends "base.html" %}
     {% load app_filters %}
-
+    {% load  %}
 
 {% block content %}
-    <h5>Dania lunchowe</h5>
-    <div>{% for lunch in lunches %}
-    <li>{{ lunch.lunch_type | lunch_type}}: {{ lunch.lunch_name }}</li>
-    {% endfor %}
-    </div>
+    <h5 class="menu">Dania główne</h5>
+    <div class="row justify-content-md-center">
+<div class="col-4">
 
+        <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Rodzaj</th>
+            <th scope="col">Nazwa</th>
+            <th scope="col">Cena</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for lunch in lunches  %}
+            <tr>
+                <td>{{ lunch.lunch_type | lunch_type }}</td>
+                <td>{{ lunch.lunch_name}}</td>
+                <td>{{ lunch.lunch_price}}</td>
+            {% endfor %}
+            </tr>
+        </tbody>
+        </table>
+</div>
+    </div>
 
 
 {% endblock %}

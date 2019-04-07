@@ -1,14 +1,14 @@
 {% extends "base.html" %}
-
+{% load crispy_forms_tags %}
 {% block content %}
     {% if not menu %}
          <div class="menu">Nie możesz edytować menu z przeszłości!</div>
     {% else%}
      <div class="menu">
-    <h3>Edytuj lunch</h3>
+    <h5>Edytuj lunch</h5>
     <form action="{%  url 'edit-menu' menu.id %}" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form | crispy }}
     <input type="submit" value="Zapisz">
     </form>
      </div>

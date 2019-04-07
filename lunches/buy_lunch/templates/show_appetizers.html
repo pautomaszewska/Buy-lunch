@@ -3,12 +3,31 @@
 
 
 {% block content %}
-    <h3>Przystawki</h3>
-    <div>{% for appetizer in appetizers %}
-    <li>{{ appetizer.type | appetizer_type}}: {{ appetizer.name }}</li>
-    {% endfor %}
-    </div>
+    <h5 class="menu">Przystawki</h5>
+    <div class="row justify-content-md-center">
+<div class="col-4">
 
+        <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Rodzaj</th>
+            <th scope="col">Nazwa</th>
+            <th scope="col">Cena</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for appetizer in appetizers  %}
+            <tr>
+                <td>{{ appetizer.appetizer_type | appetizer_type }}</td>
+                <td>{{ appetizer.appetizer_name}}</td>
+                <td>{{ appetizer.appetizer_price}}</td>
+
+            {% endfor %}
+            </tr>
+        </tbody>
+        </table>
+</div>
+    </div>
 
 
 {% endblock %}

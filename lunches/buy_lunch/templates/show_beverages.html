@@ -3,12 +3,28 @@
 
 
 {% block content %}
-    <h3>Napoje</h3>
-    <div>{% for beverage in beverage %}
-    <li>{{ beverage.name }}</li>
-    {% endfor %}
-    </div>
+    <h5 class="menu">Napoje</h5>
+    <div class="row justify-content-md-center">
+<div class="col-3">
 
+        <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Nazwa</th>
+            <th scope="col">Cena</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for beverage in beverages  %}
+            <tr>
+                <td>{{ beverage.beverage_name}}</td>
+                <td>{{ beverage.beverage_price}}</td>
+            {% endfor %}
+            </tr>
+        </tbody>
+        </table>
+</div>
+    </div>
 
 
 {% endblock %}
