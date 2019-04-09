@@ -6,7 +6,6 @@ from django.http import HttpResponse, HttpResponseRedirect
 from datetime import date
 from django.db.models import Sum, Avg
 
-
 from .models import Lunch, Appetizer, Beverages, Order, Points, Menu, MenuReview
 from .forms import AddLunchForm, AddAppetizerForm, AddBeverageForm, MenuForm, ReviewMenuForm,UserRegisterForm
 
@@ -298,6 +297,6 @@ class DishRanking(PermissionView):
 class TodayOrders(PermissionView):
     def get(self, request):
         today = date.today()
-        orders = Order.objects.filter(date=today)
+        orders = Order.objects.filter(date__startswith=today).order_by('-date')
         return render(request, 'today_orders.html', {'orders': orders})
 

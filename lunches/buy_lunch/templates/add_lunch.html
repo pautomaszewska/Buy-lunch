@@ -1,12 +1,15 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-    <h3>Dodaj lunch</h3>
+    <div class="text-center">
+    <h5>Dodaj lunch</h5>
     <form action="{%  url 'add-lunch' %}" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form | crispy }}
     <input type="submit" value="Dodaj">
 
     </form>
+    </div>
 
 {% endblock %}

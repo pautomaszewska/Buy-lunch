@@ -16,7 +16,7 @@
     </thead>
     <tbody>
         {% for order in orders %}
-        <tr><td>{{ order.date| date:"d-m-Y" }}</td>
+        <tr><td>{{ order.date| date:"d-m-Y H:i" }}</td>
             <td>{{ order.user.username }}</td>
             <td>{{ order.lunch.lunch_name }}</td>
             <td>{{ order.appetizer.appetizer_name }}</td>

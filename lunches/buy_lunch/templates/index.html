@@ -17,13 +17,17 @@
      <h5>Przystawki</h5>
          <div>Sałatka: {{ menu.salad.appetizer_name }}</div>
          <div>Zupa: {{ menu.soup.appetizer_name }}</div>
-        {% if user.is_authenticated %}
+            {% if user.is_staff %}
+            <div>
+             <a class="btn btn-primary btn-outline-dark" href="{% url 'today-orders' %}">Zamówienia na dziś</a>
+            </div>
+            {% elif user.is_authenticated %}
      <div>
         <a class="btn btn-primary btn-outline-dark" href="{% url 'make-order' %}">Złóż zamówienie</a>
-    </div>
-            {% endif %}
+     </div>
          {% endif %}
+    {% endif %}
 
-    </div>
+
 
 {% endblock %}
