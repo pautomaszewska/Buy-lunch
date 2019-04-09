@@ -264,7 +264,7 @@ class RegisterView(View):
 
 class AllOrders(PermissionView):
     def get(self, request):
-        orders = Order.objects.all()
+        orders = Order.objects.all().order_by('-date')
         return render(request, 'all_orders.html', {'orders': orders})
 
 
@@ -295,4 +295,9 @@ class DishRanking(PermissionView):
         return render(request, 'ranking.html', locals())
 
 
+class TodayOrders(PermissionView):
+    def get(self, request):
+        today = date.today()
+        orders = Order.objects.filter(date=today)
+        return render(request, 'today_orders.html', {'orders': orders})
 

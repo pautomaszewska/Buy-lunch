@@ -17,6 +17,7 @@ STARS = ((1, '*'),
          (4, '****'),
          (5, '*****'))
 
+
 class Lunch(models.Model):
     lunch_name = models.CharField(max_length=300)
     lunch_type = models.IntegerField(choices=LUNCH_TYPE)
@@ -64,16 +65,6 @@ class Points(models.Model):
     amount = models.IntegerField(default=0)
 
 
-# class LunchDate(models.Model):
-#     date = models.DateTimeField(default=datetime.today)
-#     lunch = models.ManyToManyField(Lunch)
-
-
-# class AppetizerDate(models.Model):
-#     date = models.DateTimeField(default=datetime.today)
-#     appetizer = models.ManyToManyField(Appetizer)
-
-
 class Menu(models.Model):
     date = models.DateTimeField(default=datetime.today)
     lunch_meat = models.ForeignKey(Lunch, related_name='lunch_meat', on_delete=models.CASCADE)
@@ -87,7 +78,6 @@ class LunchReview(models.Model):
     lunch = models.ForeignKey(Lunch, on_delete=models.CASCADE)
     review = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    # stars = models.IntegerField(choices=STARS)
 
 
 class MenuReview(models.Model):

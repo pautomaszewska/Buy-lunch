@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div>
+    <div class="text-center">
         <form method="POST">{% csrf_token %}
-            <div>Zarejestruj się!</div>
+            <h5>Zarejestruj się!</h5>
                 {{ form | crispy }}
                 <button type="submit">Zarejestruj</button>
         </form>
