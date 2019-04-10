@@ -3,7 +3,7 @@
 {% block content %}
     <div class="menu">
     <h4>Złóż zamówienie</h4>
-    <form action="{%  url 'make-order' %}" method="post">
+    <form action="{%  url 'make-order' %}" method="post" >
     {% csrf_token %}
 
         <h5>Wybierz danie lunchowe</h5>

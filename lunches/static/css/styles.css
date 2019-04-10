@@ -62,3 +62,24 @@ table {
     width: 20px;
     height: 20px;
 }
+
+.form label {
+    margin:0 0 3px 0;
+	padding:0;
+	display:block;
+    width: 100%;
+
+}
+.form {
+    margin: 10px auto;
+    max-width: 300px;
+    padding: 20px 12px 10px 25px;
+}
+
+.form input, select {
+    padding: 0;
+	display: block;
+    justify-content: center;
+	margin: 10px 0 0 0;
+    width: 95%;
+}

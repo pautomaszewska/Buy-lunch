@@ -1,12 +1,15 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-    <h3>Dodaj napój</h3>
-    <form action="{%  url 'add-beverage' %}" method="post">
+    <div class="text-center">
+    <h5>Dodaj napój</h5>
+    <form action="{%  url 'add-beverage' %}" method="post" class="form">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form | crispy }}
     <input type="submit" value="Dodaj">
 
     </form>
+    </div>
 
 {% endblock %}

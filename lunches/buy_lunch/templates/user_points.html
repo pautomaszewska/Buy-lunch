@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+    {% load app_filters %}
+
+
+{% block content %}
+    <h5 class="text-center">Użytkownicy</h5>
+    <div class="row justify-content-md-center">
+<div class="col-4">
+    <table class="table table-striped">
+    <thead>
+    <tr><th scope="col">Użytkownik</th>
+        <th scope="col">Punkty</th>
+
+    </thead>
+    <tbody>
+
+        {% for user in users %}
+          <tr>
+              <td>{{ user.username}}</td>
+              <td>{{ user.user_points }}</td>
+{#              <td><a href="{% url 'user-orders' user.id %}">Szczegóły</a></td>#}
+          </tr>
+           {% endfor %}
+
+
+    </tbody>
+    </table>
+    </div>
+    </div>
+
+
+
+{% endblock %}

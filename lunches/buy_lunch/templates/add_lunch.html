@@ -4,7 +4,7 @@
 {% block content %}
     <div class="text-center">
     <h5>Dodaj lunch</h5>
-    <form action="{%  url 'add-lunch' %}" method="post">
+    <form action="{%  url 'add-lunch' %}" method="post" class="form">
     {% csrf_token %}
     {{ form | crispy }}
     <input type="submit" value="Dodaj">

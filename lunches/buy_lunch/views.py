@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib.auth.models import User
+
 from django.http import HttpResponse, HttpResponseRedirect
 
 from datetime import date
@@ -300,3 +302,12 @@ class TodayOrders(PermissionView):
         orders = Order.objects.filter(date__startswith=today).order_by('-date')
         return render(request, 'today_orders.html', {'orders': orders})
 
+
+class Users(PermissionView):
+    def get(self, request):
+        users = User.objects.all()
+        for user in users:
+            count_points = Points.objects.filter(user=user).aggregate(Sum('amount'))
+            user_points = count_points['amount__sum']
+            user.user_points = user_points
+        return render(request, 'user_points.html', locals())

@@ -6,7 +6,7 @@
     {% else%}
      <div class="menu">
     <h5>Edytuj lunch</h5>
-    <form action="{%  url 'edit-menu' menu.id %}" method="post">
+    <form action="{%  url 'edit-menu' menu.id %}" method="post" class="form">
     {% csrf_token %}
     {{ form | crispy }}
     <input type="submit" value="Zapisz">
