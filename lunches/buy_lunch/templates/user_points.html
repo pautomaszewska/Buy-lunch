@@ -10,7 +10,7 @@
     <thead>
     <tr><th scope="col">Użytkownik</th>
         <th scope="col">Punkty</th>
-
+        <th scope="col">Szczegóły</th>
     </thead>
     <tbody>
 
@@ -18,7 +18,7 @@
           <tr>
               <td>{{ user.username}}</td>
               <td>{{ user.user_points }}</td>
-{#              <td><a href="{% url 'user-orders' user.id %}">Szczegóły</a></td>#}
+              <td><a href="{% url 'user-details' user.id %}">Szczegóły</a></td>
           </tr>
            {% endfor %}
 

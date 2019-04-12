@@ -6,23 +6,25 @@
     {% if not menu %}
           <div>Przepraszamy, dzisiaj nieczynne :(</div>
    {% else %}
-    <h4>Lunch na dziś: {{ today |date:'d-m-Y' }}</h4>
-
-    <h5>Danie główne</h5>
+    <h5>Lunch na dziś: {{ today |date:'d-m-Y' }}</h5>
+        <div class="mb-2 mt-4">
+        <h5><strong>Danie główne</strong></h5>
         <div>Mięsne: {{ menu.lunch_meat.lunch_name }}</div>
         <div>Wegetariańskie: {{ menu.lunch_vegetarian.lunch_name }}</div>
         <div>Wegańskie: {{ menu.lunch_vegan.lunch_name }}</div>
+        </div>
 
-
-     <h5>Przystawki</h5>
+        <div class="mb-2 mt-4">
+     <h5><strong>Przystawki</strong></h5>
          <div>Sałatka: {{ menu.salad.appetizer_name }}</div>
          <div>Zupa: {{ menu.soup.appetizer_name }}</div>
+        </div>
             {% if user.is_staff %}
-            <div>
+            <div class="mb-2 mt-4">
              <a class="btn btn-primary btn-outline-dark" href="{% url 'today-orders' %}">Zamówienia na dziś</a>
             </div>
             {% elif user.is_authenticated %}
-     <div>
+     <div class="mb-2 mt-4">
         <a class="btn btn-primary btn-outline-dark" href="{% url 'make-order' %}">Złóż zamówienie</a>
      </div>
          {% endif %}

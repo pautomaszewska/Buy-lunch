@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+    {% load app_filters %}
+
+
+{% block content %}
+    <h5 class="text-center">Użytkownik {{ orders.user.username }}</h5>
+    <table class="table table-striped">
+    <thead>
+    <tr><th scope="col">Data</th>
+        <th scope="col">Lunch</th>
+        <th scope="col">Rodzaj</th>
+        <th scope="col">Cena</th>
+        <th scope="col">Ocena</th>
+        <th scope="col">Przystawka</th>
+        <th scope="col">Rodzaj</th>
+        <th scope="col">Cena</th>
+        <th scope="col">Ocena</th>
+        <th scope="col">Napój</th>
+        <th scope="col">Cena</th>
+        <th scope="col">Cena łącznie</th>
+        <th scope="col">Otrzymane punkty</th>
+        <th scope="col">Recenzja</th></tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+       <tr ><td>{{ order.date | date:"d-m-Y" }}</td>
+            <td>{{ order.lunch.lunch_name }}</td>
+            <td>{{ order.lunch.lunch_type | lunch_type }}</td>
+            <td>{{ order.lunch.lunch_price }}</td>
+                {% if order.menureview_set.count == 0 %}
+                     <td> </td>
+                {% else %}
+                    {% for lunch in order.menureview_set.all %}
+                        <td>{{ lunch.lunch_stars }}</td>
+                    {% endfor %}
+                {% endif %}
+            <td>{{ order.appetizer.appetizer_name }}</td>
+            <td>{{ order.appetizer.appetizer_type | appetizer_type }}</td>
+            <td>{{ order.appetizer.appetizer_price }}</td>
+
+            {% if order.menureview_set.count == 0 %}
+                     <td> </td>
+                {% else %}
+                    {% for appetizer in order.menureview_set.all %}
+                        <td>{{ appetizer.appetizer_stars }}</td>
+                    {% endfor %}
+                {% endif %}
+
+            <td>{{ order.beverage.beverage_name }}</td>
+            <td>{{ order.beverage.beverage_price }}</td>
+            <td>{{ order.final_price }}</td>
+            <td>{{ order.points_collected }}</td>
+           {% if order.menureview_set.count == 0 %}
+           <td> </td>
+                {% else %}
+                    {% for review in order.menureview_set.all %}
+                        <td>{{ review.review }}</td>
+                    {% endfor %}
+                {% endif %}
+       </tr>
+
+
+    {% endfor %}
+    </tbody>
+    </table>
+
+
+
+{% endblock %}

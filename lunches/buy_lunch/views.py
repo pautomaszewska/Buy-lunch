@@ -321,6 +321,7 @@ class Users(PermissionView):
         return render(request, 'user_points.html', locals())
 
 
-# class SearchOrders(PermissionView):
-#     def get(self, request):
-#
+class UserDetails(PermissionView):
+    def get(self, request, user_id):
+        orders = Order.objects.filter(user_id=user_id).order_by('-date')
+        return render(request, 'user_details.html', {'orders': orders})
