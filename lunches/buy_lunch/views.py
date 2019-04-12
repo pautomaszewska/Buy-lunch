@@ -268,6 +268,14 @@ class AllOrders(PermissionView):
         orders = Order.objects.all().order_by('-date')
         return render(request, 'all_orders.html', {'orders': orders})
 
+    def post(self, request):
+        month = request.POST.get('month')
+        try:
+            order_search = Order.objects.filter(date__month=month)
+        except ValueError:
+            order_search = None
+        return render(request, 'all_orders.html', {'order_search': order_search})
+
 
 class DishRanking(PermissionView):
     def get(self, request):
@@ -311,3 +319,8 @@ class Users(PermissionView):
             user_points = count_points['amount__sum']
             user.user_points = user_points
         return render(request, 'user_points.html', locals())
+
+
+# class SearchOrders(PermissionView):
+#     def get(self, request):
+#

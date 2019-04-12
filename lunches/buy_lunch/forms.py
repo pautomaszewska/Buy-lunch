@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Lunch, Appetizer, Beverages, Order, Menu, MenuReview
-from datetime import date
 
 
 class AddLunchForm(forms.ModelForm):
@@ -24,22 +23,6 @@ class AddBeverageForm(forms.ModelForm):
         fields = '__all__'
 
 
-# class AddLunchDate(forms.ModelForm):
-#     class Meta:
-#         model = LunchDate
-#         fields = '__all__'
-#         widgets = {'date': forms.DateInput(attrs={'type': 'date'}),
-#                    'lunch': forms.SelectMultiple}
-#
-#
-# class AddAppetizerDate(forms.ModelForm):
-#     class Meta:
-#         model = AppetizerDate
-#         fields = '__all__'
-#         widgets = {'date': forms.DateInput(attrs={'type': 'date'}),
-#                    'appetizer': forms.SelectMultiple}
-
-
 class MenuForm(forms.ModelForm):
     date = forms.DateField(label='Data', widget=forms.DateInput(attrs={'type': 'date'}))
     lunch_meat = forms.ModelChoiceField(label='Lunch mięsny', queryset=Lunch.objects.filter(lunch_type='1'))
@@ -51,15 +34,6 @@ class MenuForm(forms.ModelForm):
     class Meta:
         model = Menu
         fields = ['date', 'lunch_meat', 'lunch_vegetarian', 'lunch_vegan', 'salad', 'soup']
-
-
-# class OrderForm(forms.ModelForm):
-#     today = date.today()
-#     lunch = forms.ModelChoiceField(queryset=Lunch.objects.filter(order__date=today))
-#
-#     class Meta:
-#         model = Order
-#         fields = '__all__'
 
 
 class ReviewMenuForm(forms.ModelForm):
