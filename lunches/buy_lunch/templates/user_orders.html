@@ -53,7 +53,9 @@
            {% if order.menureview_set.count == 0 %}
             <td><a href="{%  url 'order-review' order.id %}">Oceń lunch</a></td>
            {% else %}
-               <td>Oceniono</td>
+               {% for review in order.menureview_set.all %}
+               <td><a href="{%  url 'review' review.id %}">{{ review.review |truncatechars:10 }}</a></td>
+               {% endfor %}
             {% endif %}
        </tr>
 
