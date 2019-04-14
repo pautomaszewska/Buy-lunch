@@ -103,13 +103,12 @@ class MakeOrder(LoginRequiredMixin, View):
             points = my_points
             discount = '25%'
             discounted = 0.75
-            if points >= 50:
-                discount = '50%'
-                discounted = 0.5
-                if points >= 100:
-                    discount = '100%'
-                    discounted = 0
-
+        elif points >= 50:
+            discount = '50%'
+            discounted = 0.5
+        elif points >= 100:
+            discount = '100%'
+            discounted = 0
 
         return render(request, 'make_order.html', {'lunch_meat': lunch_meat,
                                                    'lunch_vegetarian': lunch_vegetarian,
@@ -139,7 +138,7 @@ class MakeOrder(LoginRequiredMixin, View):
             discount = request.POST.get('discount')
 
             if discount == '25%':
-                discounted = 0.25
+                discounted = 0.75
                 final_price = float(final_price) * discounted
                 points_removed = Points.objects.create(user=request.user,
                                                        amount=-25)

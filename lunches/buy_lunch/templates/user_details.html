@@ -54,7 +54,7 @@
            <td> </td>
                 {% else %}
                     {% for review in order.menureview_set.all %}
-                        <td>{{ review.review }}</td>
+                       <td><a href="{%  url 'review' review.id %}">{{ review.review |truncatechars:10 }}</a></td>
                     {% endfor %}
                 {% endif %}
        </tr>
