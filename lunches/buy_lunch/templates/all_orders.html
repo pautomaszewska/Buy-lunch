@@ -66,20 +66,7 @@
     </table>
 
     {% elif order_search %}
-{#    <h5 class="text-center">Zamówienia</h5>#}
-{#    <table class="table table-striped">#}
-{#    <thead>#}
-{#    <tr><th scope="col">Data</th>#}
-{#        <th scope="col">Użytkownik</th>#}
-{#        <th scope="col">Lunch</th>#}
-{#        <th scope="col">Ocena lunchu</th>#}
-{#        <th scope="col">Przystawka</th>#}
-{#        <th scope="col">Ocena przystawki</th>#}
-{#        <th scope="col">Napój</th>#}
-{#        <th scope="col">Cena</th>#}
-{#        <th scope="col">Recenzja</th>#}
-{#    </tr>#}
-{#    </thead>#}
+
     <tbody>
         {% for order in order_search %}
         <tr><td>{{ order.date | date:"d-m-Y" }}</td>

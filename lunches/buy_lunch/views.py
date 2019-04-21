@@ -121,14 +121,24 @@ class MakeOrder(LoginRequiredMixin, View):
                                                    'discounted': discounted})
 
     def post(self, request):
-        lunch_selected = request.POST.get('lunch')
-        lunch = Lunch.objects.get(id=lunch_selected)
+        try:
+            lunch_selected = request.POST.get('lunch')
+            lunch = Lunch.objects.get(id=lunch_selected)
 
-        appetizer_selected = request.POST.get('appetizer')
-        appetizer = Appetizer.objects.get(id=appetizer_selected)
+            appetizer_selected = request.POST.get('appetizer')
+            appetizer = Appetizer.objects.get(id=appetizer_selected)
 
-        beverage_selected = request.POST.get('beverage')
-        beverage = Beverages.objects.get(id=beverage_selected)
+            beverage_selected = request.POST.get('beverage')
+            beverage = Beverages.objects.get(id=beverage_selected)
+        except Lunch.DoesNotExist:
+            lunch = None
+            return redirect('make-order')
+        except Appetizer.DoesNotExist:
+            appetizer = None
+            return redirect('make-order')
+        except Beverages.DoesNotExist:
+            beverage = None
+            return redirect('make-order')
 
         final_price = lunch.lunch_price + appetizer.appetizer_price + beverage.beverage_price
 
@@ -210,7 +220,6 @@ class MenuDetails(PermissionView):
 
 
 class EditMenu(PermissionView):
-
     def get(self, request, menu_id):
         today = date.today()
         try:
@@ -330,3 +339,5 @@ class LunchReview(LoginRequiredMixin, View):
     def get(self, request, review_id):
         review = MenuReview.objects.get(id=review_id)
         return render(request, 'review.html', {'review': review})
+
+
