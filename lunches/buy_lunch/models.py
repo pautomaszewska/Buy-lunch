@@ -65,7 +65,7 @@ class Points(models.Model):
 
 
 class Menu(models.Model):
-    date = models.DateTimeField(default=datetime.today)
+    date = models.DateTimeField(default=datetime.today, unique=True, error_messages={'unique':"Lunch na ten dzień już istnieje"})
     lunch_meat = models.ForeignKey(Lunch, related_name='lunch_meat', on_delete=models.CASCADE)
     lunch_vegetarian = models.ForeignKey(Lunch, related_name='lunch_vegetarian', on_delete=models.CASCADE)
     lunch_vegan = models.ForeignKey(Lunch, related_name='lunch_vegan', on_delete=models.CASCADE)

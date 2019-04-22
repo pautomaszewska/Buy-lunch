@@ -211,6 +211,8 @@ class SetMenu(PermissionView):
         if form.is_valid():
             form.save()
             return redirect('index')
+        else:
+            return render(request, 'set_menu.html', {'form': form})
 
 
 class MenuDetails(PermissionView):
