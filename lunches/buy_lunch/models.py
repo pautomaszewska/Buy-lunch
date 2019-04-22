@@ -22,7 +22,6 @@ class Lunch(models.Model):
     lunch_name = models.CharField(max_length=300)
     lunch_type = models.IntegerField(choices=LUNCH_TYPE)
     lunch_price = models.DecimalField(decimal_places=2, max_digits=4)
-    # date = models.ManyToManyField('LunchDate')
 
     def __str__(self):
         return self.lunch_name
