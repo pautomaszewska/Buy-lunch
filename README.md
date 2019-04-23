@@ -3,6 +3,12 @@
 ### Info
 App created for lunch ordering. The user can compose lunch from one of three main dishes (meat, vegetarian or vegan), one of two appetizers (soup or salad) and a beverage.
 
+ ![user_main](./images/user_main.png)
+ ![user_makeorder](./images/user_makeorder.png)
+ ![user_orders](./images/user_orders.png)
+ ![admin_main](./images/admin_main.png)
+ ![admin_ranking](./images/admin_ranking.png)
+
 ### Technologies
 * Python 3.6 
 * Django 2.1 
@@ -18,6 +24,7 @@ Admin can:
 * view lunches in calendar
 * edit lunch
 * view today's orders
+* confirm when the lunch is ready
 * view order history
 * view lunch ranking
 * view user details
