@@ -17,9 +17,11 @@
         <th scope="col">Ocena</th>
         <th scope="col">Napój</th>
         <th scope="col">Cena</th>
-        <th scope="col">Cena łącznie</th>
-        <th scope="col">Otrzymane punkty</th>
-        <th scope="col">Recenzja</th></tr>
+        <th scope="col">Łącznie</th>
+        <th scope="col">Punkty</th>
+        <th scope="col">Recenzja</th>
+        <th scope="col">Gotowe</th>
+    </tr>
     </thead>
     <tbody>
         {% for order in orders %}
@@ -57,6 +59,7 @@
                <td><a href="{%  url 'review' review.id %}">{{ review.review |truncatechars:10 }}</a></td>
                {% endfor %}
             {% endif %}
+            <td>{{ order.ready | yesno:"Gotowe!,Nie" }}</td>
        </tr>
 
 
@@ -64,6 +67,10 @@
     </tbody>
     </table>
 
-
+    <script>
+       setTimeout(function(){
+        location.reload();
+        }, 5000);
+    </script>
 
 {% endblock %}

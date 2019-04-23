@@ -12,6 +12,7 @@
         <th scope="col">Przystawka</th>
         <th scope="col">Napój</th>
         <th scope="col">Cena</th>
+        <th scope="col">Potwierdzenie</th>
     </tr>
     </thead>
     <tbody>
@@ -22,11 +23,20 @@
             <td>{{ order.appetizer.appetizer_name }}</td>
             <td>{{ order.beverage.beverage_name }}</td>
             <td>{{ order.final_price }}</td>
+            {% if order.ready is False %}
+                <td><a href="{% url 'confirm-order' order.id %}">Potwierdź</a></td>
+            {% else %}
+               <td>Gotowe</td>
+            {% endif %}
        </tr>
         {% endfor %}
     </tbody>
     </table>
 
-
+    <script>
+       setTimeout(function(){
+        location.reload();
+        }, 5000);
+    </script>
 
 {% endblock %}

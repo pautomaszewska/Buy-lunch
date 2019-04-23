@@ -343,3 +343,17 @@ class LunchReview(LoginRequiredMixin, View):
         return render(request, 'review.html', {'review': review})
 
 
+class OrderConfirm(PermissionView):
+    def get(self, request, order_id):
+        order = Order.objects.get(id=order_id)
+        return render(request, 'confirm_order.html', {'order': order})
+
+    def post(self, request, order_id):
+        order = Order.objects.get(id=order_id)
+        order.ready = True
+        order.save()
+        return redirect('today-orders')
+
+
+
+

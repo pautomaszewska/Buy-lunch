@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section">
+    <div class="text-center">
+    <h5>Zamówienie nr: {{ order.id }}</h5>
+    <form action="{%  url 'confirm-order' order.id %}" method="post" class="form">
+    {% csrf_token %}
+        <div class="form-group">
+            Użytkownik: {{ order.user }}
+        </div>
+        <div class="form-group">
+            Danie główne: {{ order.lunch }}
+        </div>
+        <div class="form-group">
+             Przystawka: {{ order.appetizer }}
+        </div>
+        <div class="form-group">
+             Napój: {{ order.beverage }}
+        </div>
+        <div class="form-group">
+             Cena: {{ order.final_price }}
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Potwierdź">
+        </div>
+
+    </form>
+    </div>
+    </div>
+
+{% endblock %}
+

@@ -54,6 +54,7 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     discount = models.IntegerField(default=0)
     points_collected = models.IntegerField(default=0)
+    ready = models.BooleanField(default=False)
 
     def __str__(self):
         return 'Zamówienie: {}, {}, {}'.format(self.lunch, self.appetizer, self.beverage)
