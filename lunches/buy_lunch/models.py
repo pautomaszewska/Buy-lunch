@@ -19,26 +19,26 @@ STARS = ((1, '*'),
 
 
 class Lunch(models.Model):
-    lunch_name = models.CharField(max_length=300)
-    lunch_type = models.IntegerField(choices=LUNCH_TYPE)
-    lunch_price = models.DecimalField(decimal_places=2, max_digits=4)
+    lunch_name = models.CharField(max_length=300, verbose_name='Nazwa')
+    lunch_type = models.IntegerField(choices=LUNCH_TYPE, verbose_name='Typ')
+    lunch_price = models.DecimalField(decimal_places=2, max_digits=4, verbose_name='Cena')
 
     def __str__(self):
         return self.lunch_name
 
 
 class Appetizer(models.Model):
-    appetizer_name = models.CharField(max_length=300)
-    appetizer_type = models.IntegerField(choices=APPETIZER_TYPE)
-    appetizer_price = models.DecimalField(decimal_places=2, max_digits=4)
+    appetizer_name = models.CharField(max_length=300, verbose_name='Nazwa')
+    appetizer_type = models.IntegerField(choices=APPETIZER_TYPE, verbose_name='Typ')
+    appetizer_price = models.DecimalField(decimal_places=2, max_digits=4, verbose_name='Cena')
 
     def __str__(self):
         return self.appetizer_name
 
 
 class Beverages(models.Model):
-    beverage_name = models.CharField(max_length=100)
-    beverage_price = models.DecimalField(decimal_places=2, max_digits=4)
+    beverage_name = models.CharField(max_length=100, verbose_name='Nazwa')
+    beverage_price = models.DecimalField(decimal_places=2, max_digits=4, verbose_name='Cena')
 
     def __str__(self):
         return self.beverage_name
@@ -74,16 +74,10 @@ class Menu(models.Model):
     salad = models.ForeignKey(Appetizer, related_name='salad', on_delete=models.CASCADE)
 
 
-class LunchReview(models.Model):
-    lunch = models.ForeignKey(Lunch, on_delete=models.CASCADE)
-    review = models.TextField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-
 class MenuReview(models.Model):
-    review = models.TextField()
+    review = models.TextField(verbose_name='Recenzja')
     menu = models.ForeignKey(Order, on_delete=models.CASCADE)
-    lunch_stars = models.IntegerField(choices=STARS)
-    appetizer_stars = models.IntegerField(choices=STARS)
+    lunch_stars = models.IntegerField(choices=STARS, verbose_name='Ocena lunchu')
+    appetizer_stars = models.IntegerField(choices=STARS, verbose_name='Ocena przystawki')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 

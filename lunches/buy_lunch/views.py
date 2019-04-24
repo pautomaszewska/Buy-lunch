@@ -36,7 +36,7 @@ class AddLunch(PermissionView):
         form = AddLunchForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('index')
+            return redirect('lunches')
 
 
 class AddAppetizer(PermissionView):
@@ -48,7 +48,7 @@ class AddAppetizer(PermissionView):
         form = AddAppetizerForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('index')
+            return redirect('appetizers')
 
 
 class AddBeverage(PermissionView):
@@ -60,12 +60,12 @@ class AddBeverage(PermissionView):
         form = AddBeverageForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('index')
+            return redirect('beverages')
 
 
 class ShowLunches(PermissionView):
     def get(self, request):
-        lunches = Lunch.objects.all()
+        lunches = Lunch.objects.all().order_by('lunch_type')
         return render(request, 'show_lunches.html', {'lunches': lunches})
 
 
@@ -99,6 +99,10 @@ class MakeOrder(LoginRequiredMixin, View):
         discount = None
         discounted = 0
         points = 0
+
+        if my_points is None:
+            my_points = 0
+
         if my_points >= 25:
             points = my_points
             discount = '25%'
@@ -324,10 +328,10 @@ class TodayOrders(PermissionView):
 class Users(PermissionView):
     def get(self, request):
         users = User.objects.all()
-        for user in users:
-            count_points = Points.objects.filter(user=user).aggregate(Sum('amount'))
+        for current_user in users:
+            count_points = Points.objects.filter(user=current_user).aggregate(Sum('amount'))
             user_points = count_points['amount__sum']
-            user.user_points = user_points
+            current_user.user_points = user_points
         return render(request, 'user_points.html', locals())
 
 
