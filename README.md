@@ -3,6 +3,13 @@
 ### Info
 App created for lunch ordering. The user can compose lunch from one of three main dishes (meat, vegetarian or vegan), one of two appetizers (soup or salad) and a beverage.
 
+Demo: https://time-for-lunch.herokuapp.com/
+To use as admin:
+```
+login: pt
+password: 1234
+```
+
  ![user_main](./images/user_main.png)
  ![user_makeorder](./images/user_makeorder.png)
  ![user_orders](./images/user_orders.png)
@@ -12,7 +19,7 @@ App created for lunch ordering. The user can compose lunch from one of three mai
 ### Technologies
 * Python 3.6 
 * Django 2.1 
-* PostgreSQL
+* PostgreSQL / SQLite
 * jQuery
 * Bootstrap 4
 
@@ -38,8 +45,24 @@ User can:
 * review lunch
 
 ### Installation
-* create Postgres database 'buy_lunch'
-* clone and download repository
-* install requirements
+* clone repository
+```
+git clone https://github.com/pautomaszewska/LunchTime
+```
+* create virtual environment and install requirements
+```
+virtualenv -p pytho3 env
+source env/bin/activate
+pip install -r requirements.txt
+```
 * run migrations for 'buy_lunch' app
+```
+python manage.py makemigrations buy_lunch
+python manage.py migrate
+python manage.py runserver
+```
+* to set menu for the next three months, run:
+```
+python manage.py set_lunches
+```
 
